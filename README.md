@@ -1,0 +1,2 @@
+# hamlogtool
+Converts between 
