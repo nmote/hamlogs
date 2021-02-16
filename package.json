@@ -1,0 +1,10 @@
+{
+  "name": "hamlogtool",
+  "version": "0.0.1",
+  "description": "Converts between various ham logging formats",
+  "main": "index.js",
+  "repository": "git@github.com:nmote/hamlogtool.git",
+  "author": "nmote",
+  "license": "MIT",
+  "private": true
+}
