@@ -19,7 +19,7 @@ function makeLine(stationCallSign, myPark, entry) {
       makeItem('BAND', entry.band) +
       makeItem('MODE', entry.mode) +
       makeItem('SIG', '') +
-      makeItem('SIG_INFO', '') +
+      makeItem('SIG_INFO', entry.otherPark) +
       makeItem('NOTES', '') +
       '<eor>'
 }
