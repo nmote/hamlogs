@@ -10,7 +10,13 @@
   "author": "nmote",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "csv": "^5.3.2"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
   }
 }
