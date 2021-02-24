@@ -30,3 +30,5 @@ module.exports.toAdif = function(stationCallSign, myPark, log) {
   log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry))});
   return lines.join('\n');
 }
+
+module.exports.makeLine_TEST = makeLine;
