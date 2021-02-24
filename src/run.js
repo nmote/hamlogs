@@ -7,5 +7,5 @@ module.exports.main = function(inputFile, callsign, park) {
   const file = fs.readFileSync(inputFile).toString();
   const log = parse(file);
   const adif = toAdif(callsign, park, log);
-  console.log(adif);
+  return adif;
 }

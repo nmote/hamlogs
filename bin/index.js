@@ -8,4 +8,4 @@ const inputFile = process.argv[2];
 const callsign = process.argv[3];
 const park = process.argv[4];
 
-main(inputFile, callsign, park);
+process.stdout.write(main(inputFile, callsign, park));

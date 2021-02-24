@@ -28,7 +28,7 @@ module.exports.toAdif = function(stationCallSign, myPark, log) {
   const lines = []
   lines.push(makeHeader());
   log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry))});
-  return lines.join('\n');
+  return lines.join('\n') + '\n';
 }
 
 module.exports.makeLine_TEST = makeLine;
