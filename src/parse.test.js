@@ -16,4 +16,19 @@ test('columnOrder succesfully determines the position of each column', () => {
     ['Call', 4],
     ['Sig Info', 5],
   ]));
+  expect(columnOrder([
+    'Other park',
+    'Call',
+    'Mode',
+    'Band',
+    'Time',
+    'Date',
+  ])).toEqual(new Map([
+    ['Date', 5],
+    ['Time', 4],
+    ['Band', 3],
+    ['Mode', 2],
+    ['Call', 1],
+    ['Sig Info', 0],
+  ]));
 });

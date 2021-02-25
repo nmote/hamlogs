@@ -1,15 +1,32 @@
 const parseCSV = require('csv-parse/lib/sync');
 
+const canonicalToAlternates = new Map([
+  ['Date', []],
+  ['Time', []],
+  ['Band', []],
+  ['Mode', []],
+  ['Call', []],
+  ['Sig Info', ['Other park']],
+]);
+
+const nameToCanonicalName = new Map();
+
+for (const [canonical, alternates] of canonicalToAlternates) {
+  nameToCanonicalName.set(canonical, canonical);
+  for (const alternate of alternates) {
+    nameToCanonicalName.set(alternate, canonical);
+  }
+}
+
 function columnOrder(headerRow) {
-  // TODO actually read the headers
-  return new Map([
-    ['Date', 0],
-    ['Time', 1],
-    ['Band', 2],
-    ['Mode', 3],
-    ['Call', 4],
-    ['Sig Info', 5],
-  ]);
+  const order = new Map();
+  headerRow.forEach((name, i) => {
+    const canonical = nameToCanonicalName.get(name);
+    if (canonical != null) {
+      order.set(canonical, i);
+    }
+  });
+  return order;
 }
 
 function parseRow(order, row) {
