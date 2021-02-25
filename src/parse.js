@@ -30,3 +30,5 @@ module.exports.parse = function(input) {
 
   return csv.map(row => parseRow(order, row));
 }
+
+module.exports.columnOrder_TEST = columnOrder;
