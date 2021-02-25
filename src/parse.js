@@ -29,15 +29,28 @@ function columnOrder(headerRow) {
   return order;
 }
 
+function extractCell(order, row, name) {
+  const index = order.get(name);
+  if (index == null) {
+    return null;
+  }
+  const result = row[index];
+  if (result === '') {
+    // The CSV parser gives us the empty string if a cell is empty
+    return null;
+  }
+  return result;
+}
+
 function parseRow(order, row) {
   // TODO handle various possible formats for these entries
   return {
-    date: row[order.get('Date')],
-    time: row[order.get('Time')] + '00',
-    band: row[order.get('Band')] + 'M',
-    mode: row[order.get('Mode')],
-    call: row[order.get('Call')],
-    sigInfo: row[order.get('Sig Info')],
+    date: extractCell(order, row, 'Date'),
+    time: extractCell(order, row, 'Time') + '00',
+    band: extractCell(order, row, 'Band') + 'M',
+    mode: extractCell(order, row, 'Mode'),
+    call: extractCell(order, row, 'Call'),
+    sigInfo: extractCell(order, row, 'Sig Info'),
   }
 }
 

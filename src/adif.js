@@ -1,6 +1,10 @@
 
 function makeItem(name, text) {
   // TODO handle non-ASCII
+  if (text == null) {
+    // TODO consider omitting null entries entirely
+    text = '';
+  }
   return `<${name}:${text.length}>${text}`
 }
 
