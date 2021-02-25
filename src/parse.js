@@ -8,7 +8,7 @@ function columnOrder(headerRow) {
     ['Band', 2],
     ['Mode', 3],
     ['Call', 4],
-    ['Other park', 5],
+    ['Sig Info', 5],
   ]);
 }
 
@@ -20,7 +20,7 @@ function parseRow(order, row) {
     band: row[order.get('Band')] + 'M',
     mode: row[order.get('Mode')],
     call: row[order.get('Call')],
-    otherPark: row[order.get('Other park')],
+    sigInfo: row[order.get('Sig Info')],
   }
 }
 

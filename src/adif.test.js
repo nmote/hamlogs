@@ -6,7 +6,7 @@ const testLine = {
   time: '225000',
   band: '40M',
   mode: 'CW',
-  otherPark: '',
+  sigInfo: '',
 };
 
 const testOutput = '<STATION_CALLSIGN:5>K7NCM<OPERATOR:0><MY_SIG:4>POTA<MY_SIG_INFO:6>K-3213<CALL:5>N9EGT<QSO_DATE:8>20210215<TIME_ON:6>225000<BAND:3>40M<MODE:2>CW<SIG:0><SIG_INFO:0><NOTES:0><eor>';
