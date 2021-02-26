@@ -1,5 +1,7 @@
 const parseCSV = require('csv-parse/lib/sync');
 
+const entry = require('./entry');
+
 const canonicalToAlternates = new Map([
   ['date', []],
   ['time', []],
@@ -50,12 +52,12 @@ function extractCell(order, row, name) {
 function parseRow(order, row) {
   // TODO handle various possible formats for these entries
   return {
-    date: extractCell(order, row, 'date'),
-    time: extractCell(order, row, 'time') + '00',
-    band: extractCell(order, row, 'band') + 'M',
-    mode: extractCell(order, row, 'mode'),
-    call: extractCell(order, row, 'call'),
-    sigInfo: extractCell(order, row, 'sig_info'),
+    date: entry.date(extractCell(order, row, 'date')),
+    time: entry.time(extractCell(order, row, 'time')),
+    band: entry.band(extractCell(order, row, 'band')),
+    mode: entry.mode(extractCell(order, row, 'mode')),
+    call: entry.call(extractCell(order, row, 'call')),
+    sigInfo: entry.sigInfo(extractCell(order, row, 'sig_info')),
   }
 }
 
