@@ -1,12 +1,12 @@
 const parseCSV = require('csv-parse/lib/sync');
 
 const canonicalToAlternates = new Map([
-  ['Date', []],
-  ['Time', []],
-  ['Band', []],
-  ['Mode', []],
-  ['Call', []],
-  ['Sig Info', ['Other park']],
+  ['date', []],
+  ['time', []],
+  ['band', []],
+  ['mode', []],
+  ['call', []],
+  ['sig_info', ['other_park']],
 ]);
 
 const nameToCanonicalName = new Map();
@@ -18,10 +18,15 @@ for (const [canonical, alternates] of canonicalToAlternates) {
   }
 }
 
+function normalizeName(name) {
+  return name.toLowerCase().replace(/[ -]/g, '_')
+}
+
 function columnOrder(headerRow) {
   const order = new Map();
   headerRow.forEach((name, i) => {
-    const canonical = nameToCanonicalName.get(name);
+    const normalized = normalizeName(name);
+    const canonical = nameToCanonicalName.get(normalized);
     if (canonical != null) {
       order.set(canonical, i);
     }
@@ -45,12 +50,12 @@ function extractCell(order, row, name) {
 function parseRow(order, row) {
   // TODO handle various possible formats for these entries
   return {
-    date: extractCell(order, row, 'Date'),
-    time: extractCell(order, row, 'Time') + '00',
-    band: extractCell(order, row, 'Band') + 'M',
-    mode: extractCell(order, row, 'Mode'),
-    call: extractCell(order, row, 'Call'),
-    sigInfo: extractCell(order, row, 'Sig Info'),
+    date: extractCell(order, row, 'date'),
+    time: extractCell(order, row, 'time') + '00',
+    band: extractCell(order, row, 'band') + 'M',
+    mode: extractCell(order, row, 'mode'),
+    call: extractCell(order, row, 'call'),
+    sigInfo: extractCell(order, row, 'sig_info'),
   }
 }
 
