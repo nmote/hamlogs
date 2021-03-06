@@ -1,7 +1,7 @@
 // TODO generate user-friendly error messages
 import {strict as assert} from 'assert';
 
-module.exports.date = function(input) {
+export function date(input) {
   assert(input != null, 'Date must be provided');
   // TODO relax this restriction, e.g. YYYY-MM-DD should be fine
   assert(input.length === 8, 'Date must be in the format YYYYMMDD');
@@ -9,7 +9,7 @@ module.exports.date = function(input) {
   return input;
 }
 
-module.exports.time = function(input) {
+export function time(input) {
   assert(input != null, 'Time must be provided');
   // TODO also allow HHMMSS, HH:MM, HH:MM:SS
   assert(input.length === 4, 'Time must be in the format HHMM');
