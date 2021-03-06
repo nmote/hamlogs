@@ -2,7 +2,7 @@
 
 // TODO make this whole piece of software not shitty
 
-const {main} = require('../src/run');
+const {main} = require('../lib/run');
 
 const inputFile = process.argv[2];
 const callsign = process.argv[3];

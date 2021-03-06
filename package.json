@@ -11,12 +11,17 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest src/",
+    "build": "babel src -d lib"
   },
   "dependencies": {
     "csv": "^5.3.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/preset-flow": "^7.12.13",
     "jest": "^26.6.3"
   }
 }
