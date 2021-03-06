@@ -1,5 +1,5 @@
-const {main} = require('./run');
-const fs = require('fs');
+import {main} from './run';
+import fs from 'fs';
 
 const CSVPath = __dirname + '/../fixtures/K-3213.csv';
 

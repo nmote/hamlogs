@@ -1,6 +1,6 @@
-const parseCSV = require('csv-parse/lib/sync');
+import parseCSV from 'csv-parse/lib/sync';
 
-const entry = require('./entry');
+import * as entry from './entry';
 
 const canonicalToAlternates = new Map([
   ['date', []],
@@ -61,11 +61,11 @@ function parseRow(order, row) {
   }
 }
 
-module.exports.parse = function(input) {
+export function parse(input) {
   const csv = parseCSV(input);
   const order = columnOrder(csv.shift());
 
   return csv.map(row => parseRow(order, row));
 }
 
-module.exports.columnOrder_TEST = columnOrder;
+export const columnOrder_TEST = columnOrder;

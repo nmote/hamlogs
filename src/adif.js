@@ -31,11 +31,11 @@ function makeLine(stationCallSign: string, myPark: string, entry: Entry): string
       '<eor>'
 }
 
-module.exports.toAdif = function(stationCallSign: string, myPark: string, log: Array<any>): string {
+export function toAdif(stationCallSign: string, myPark: string, log: Array<any>): string {
   const lines = []
   lines.push(makeHeader());
   log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry))});
   return lines.join('\n') + '\n';
 }
 
-module.exports.makeLine_TEST = makeLine;
+export const makeLine_TEST = makeLine;

@@ -1,8 +1,8 @@
-const fs = require('fs');
-const {parse} = require('./parse');
-const {toAdif} = require('./adif');
+import fs from 'fs';
+import {parse} from './parse';
+import {toAdif} from './adif';
 
-module.exports.main = function(inputFile, callsign, park) {
+export function main(inputFile, callsign, park) {
   // TODO validate callsign and park
   const file = fs.readFileSync(inputFile).toString();
   const log = parse(file);

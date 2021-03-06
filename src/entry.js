@@ -1,5 +1,5 @@
 // TODO generate user-friendly error messages
-const assert = require('assert').strict
+import {strict as assert} from 'assert';
 
 module.exports.date = function(input) {
   assert(input != null, 'Date must be provided');
@@ -47,7 +47,7 @@ function normalizeBand(input) {
   return input.toLowerCase(input);
 }
 
-module.exports.band = function(input) {
+export function band (input) {
   // Band isn't required because the user could specify frequency instead.
   // TODO ensure that either band or frequency is provided
   // TODO infer band from frequency
@@ -73,7 +73,7 @@ function normalizeMode(input) {
   return input.toUpperCase();
 }
 
-module.exports.mode = function(input) {
+export function mode(input) {
   assert(input != null, 'Mode must be included');
   input = normalizeMode(input);
   assert(hamModes.has(input), 'Mode must be valid');
@@ -85,12 +85,12 @@ function normalizeCall(input) {
   return input.toUpperCase();
 }
 
-module.exports.call = function(input) {
+export function call(input) {
   assert(input != null, 'The other station\'s callsign must be provided');
   return normalizeCall(input);
 }
 
-module.exports.sigInfo = function(input) {
+export function sigInfo(input) {
   // TODO Validate park number for when this is used for POTA
   return input;
 }

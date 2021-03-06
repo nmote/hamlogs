@@ -1,4 +1,4 @@
-const {makeLine_TEST: makeLine} = require('./adif');
+import {makeLine_TEST as makeLine} from './adif';
 
 const testLine = {
   call: 'N9EGT',

@@ -1,4 +1,4 @@
-const {columnOrder_TEST: columnOrder} = require('./parse');
+import {columnOrder_TEST as columnOrder} from './parse';
 
 test('columnOrder succesfully determines the position of each column', () => {
   expect(columnOrder([
