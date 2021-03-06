@@ -1,5 +1,8 @@
+// @flow
 
-function makeItem(name, text) {
+import type {Entry} from './entryType';
+
+function makeItem(name: string, text: string): string {
   // TODO handle non-ASCII
   if (text == null) {
     // TODO consider omitting null entries entirely
@@ -12,7 +15,7 @@ function makeHeader() {
   return `hamlogtool by nmote ${makeItem('ProgramID', 'hamlogtool')}<EOH>`;
 }
 
-function makeLine(stationCallSign, myPark, entry) {
+function makeLine(stationCallSign: string, myPark: string, entry: Entry): string {
   return makeItem('STATION_CALLSIGN', stationCallSign) +
       makeItem('OPERATOR', '') +
       makeItem('MY_SIG', 'POTA') +
@@ -28,7 +31,7 @@ function makeLine(stationCallSign, myPark, entry) {
       '<eor>'
 }
 
-module.exports.toAdif = function(stationCallSign, myPark, log) {
+module.exports.toAdif = function(stationCallSign: string, myPark: string, log: Array<any>): string {
   const lines = []
   lines.push(makeHeader());
   log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry))});

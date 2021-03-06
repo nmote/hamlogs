@@ -1,0 +1,6 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/lib/.*
+
+[version]
+0.146.0
