@@ -1,6 +1,6 @@
 // @flow
 
-import type {Entry} from './entryType';
+import type {Entry} from './entry';
 
 function makeItem(name: string, text: string): string {
   // TODO handle non-ASCII

@@ -7,6 +7,15 @@ import {strict as assert} from 'assert';
 
 // TODO use opaque types for date, time, etc.
 
+export type Entry = {
+  call: string,
+  date: string,
+  time: string,
+  band: string,
+  mode: string,
+  sigInfo: string,
+};
+
 export function date(input: string): string {
   assert(input != null, 'Date must be provided');
   // TODO relax this restriction, e.g. YYYY-MM-DD should be fine
