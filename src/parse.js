@@ -1,3 +1,8 @@
+// @flow
+
+import type {Entry} from './entry';
+
+// $FlowFixMe[cannot-resolve-module]
 import parseCSV from 'csv-parse/lib/sync';
 
 import * as entry from './entry';
@@ -24,7 +29,7 @@ function normalizeName(name) {
   return name.toLowerCase().replace(/[ -]/g, '_')
 }
 
-function columnOrder(headerRow) {
+function columnOrder(headerRow: Array<string>): Map<string, number> {
   const order = new Map();
   headerRow.forEach((name, i) => {
     const normalized = normalizeName(name);
@@ -61,7 +66,7 @@ function parseRow(order, row) {
   }
 }
 
-export function parse(input) {
+export function parse(input: string): Array<Entry> {
   const csv = parseCSV(input);
   const order = columnOrder(csv.shift());
 

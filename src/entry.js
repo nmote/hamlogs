@@ -3,7 +3,7 @@
 // TODO generate user-friendly error messages
 
 // $FlowFixMe[missing-export] this export does exist at runtime
-import {strict as assert} from 'assert';
+import {strict as invariant} from 'assert';
 
 // TODO use opaque types for date, time, etc.
 
@@ -16,18 +16,18 @@ export type Entry = {
   sigInfo: string,
 };
 
-export function date(input: string): string {
-  assert(input != null, 'Date must be provided');
+export function date(input: string | null): string {
+  invariant(input != null, 'Date must be provided');
   // TODO relax this restriction, e.g. YYYY-MM-DD should be fine
-  assert(input.length === 8, 'Date must be in the format YYYYMMDD');
+  invariant(input.length === 8, 'Date must be in the format YYYYMMDD');
   // TODO do some additional validation
   return input;
 }
 
-export function time(input: string): string {
-  assert(input != null, 'Time must be provided');
+export function time(input: string | null): string {
+  invariant(input != null, 'Time must be provided');
   // TODO also allow HHMMSS, HH:MM, HH:MM:SS
-  assert(input.length === 4, 'Time must be in the format HHMM');
+  invariant(input.length === 4, 'Time must be in the format HHMM');
   // TODO do some additional validation
   return input + '00';
 }
@@ -62,13 +62,13 @@ function normalizeBand(input: string): string {
   return input.toLowerCase();
 }
 
-export function band(input: string): string {
+export function band(input: string | null): string | null {
   // Band isn't required because the user could specify frequency instead.
   // TODO ensure that either band or frequency is provided
   // TODO infer band from frequency
   if (input != null) {
     input = normalizeBand(input);
-    assert(hamBands.has(input), 'Band must be a valid ham band');
+    invariant(hamBands.has(input), 'Band must be a valid ham band');
   }
   return input;
 }
@@ -88,10 +88,10 @@ function normalizeMode(input: string): string {
   return input.toUpperCase();
 }
 
-export function mode(input: string): string {
-  assert(input != null, 'Mode must be included');
+export function mode(input: string | null): string {
+  invariant(input != null, 'Mode must be included');
   input = normalizeMode(input);
-  assert(hamModes.has(input), 'Mode must be valid');
+  invariant(hamModes.has(input), 'Mode must be valid');
   return input;
 }
 
@@ -100,12 +100,12 @@ function normalizeCall(input: string): string {
   return input.toUpperCase();
 }
 
-export function call(input: string): string {
-  assert(input != null, 'The other station\'s callsign must be provided');
+export function call(input: string | null): string {
+  invariant(input != null, 'The other station\'s callsign must be provided');
   return normalizeCall(input);
 }
 
-export function sigInfo(input: string): string {
+export function sigInfo(input: string | null): string | null {
   // TODO Validate park number for when this is used for POTA
   return input;
 }
