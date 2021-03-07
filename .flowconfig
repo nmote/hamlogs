@@ -4,6 +4,17 @@
 
 [lints]
 ambiguous-object-type=error
+deprecated-type=error
+deprecated-utility=error
+implicit-inexact-object=error
+nonstrict-import=error
+sketchy-null=error
+sketchy-number=error
+unnecessary-invariant=error
+unnecessary-optional-chain=error
+unsafe-getters-setters=error
+untyped-import=error
+untyped-type-import=error
 
 [version]
 0.146.0
