@@ -7,14 +7,14 @@ import {strict as invariant} from 'assert';
 
 // TODO use opaque types for date, time, etc.
 
-export type Entry = {
+export type Entry = {|
   call: string,
   date: string,
   time: string,
   band: string,
   mode: string,
   sigInfo: string,
-};
+|};
 
 export function date(input: string | null): string {
   invariant(input != null, 'Date must be provided');
