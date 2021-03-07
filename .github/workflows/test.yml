@@ -10,3 +10,5 @@ jobs:
         run: yarn
       - name: Run Tests
         run: yarn test
+      - name: Run Flow
+        run: yarn run flow
