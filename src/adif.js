@@ -31,7 +31,7 @@ function makeLine(stationCallSign: string, myPark: string, entry: Entry): string
       '<eor>'
 }
 
-export function toAdif(stationCallSign: string, myPark: string, log: Array<any>): string {
+export function toAdif(stationCallSign: string, myPark: string, log: Array<Entry>): string {
   const lines = []
   lines.push(makeHeader());
   log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry))});

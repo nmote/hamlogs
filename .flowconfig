@@ -10,6 +10,7 @@ implicit-inexact-object=error
 nonstrict-import=error
 sketchy-null=error
 sketchy-number=error
+unclear-type=error
 unnecessary-invariant=error
 unnecessary-optional-chain=error
 unsafe-getters-setters=error
