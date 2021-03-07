@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import fs from 'fs';
 // $FlowFixMe[missing-export] this export does exist at runtime

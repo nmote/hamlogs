@@ -1,8 +1,9 @@
-// @flow
+// @flow strict
 
 import type {Entry} from './entry';
 
-function makeItem(name: string, text: string): string {
+function makeItem(name: string, textParam: string): string {
+  let text = textParam;
   // TODO handle non-ASCII
   if (text == null) {
     // TODO consider omitting null entries entirely

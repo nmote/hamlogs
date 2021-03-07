@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 // TODO generate user-friendly error messages
 
@@ -52,7 +52,8 @@ const hamBands: Set<string> = new Set([
   '70cm',
 ]);
 
-function normalizeBand(input: string): string {
+function normalizeBand(inputParam: string): string {
+  let input = inputParam;
   if (/^[0-9.]+$/.test(input)) {
     // If we have no units, assume it's meters
     input = input + 'm';
@@ -62,7 +63,8 @@ function normalizeBand(input: string): string {
   return input.toLowerCase();
 }
 
-export function band(input: string | null): string | null {
+export function band(inputParam: string | null): string | null {
+  let input = inputParam;
   // Band isn't required because the user could specify frequency instead.
   // TODO ensure that either band or frequency is provided
   // TODO infer band from frequency
@@ -88,7 +90,8 @@ function normalizeMode(input: string): string {
   return input.toUpperCase();
 }
 
-export function mode(input: string | null): string {
+export function mode(inputParam: string | null): string {
+  let input = inputParam;
   invariant(input != null, 'Mode must be included');
   input = normalizeMode(input);
   invariant(hamModes.has(input), 'Mode must be valid');
