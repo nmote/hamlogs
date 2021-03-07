@@ -11,4 +11,4 @@ jobs:
       - name: Run Tests
         run: yarn test
       - name: Run Flow
-        run: yarn run flow
+        run: yarn run flow check
