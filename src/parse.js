@@ -70,7 +70,7 @@ export function parse(input: string): Array<Entry> {
   const csv = parseCSV(input);
   const order = columnOrder(csv.shift());
 
-  return csv.map(row => parseRow(order, row));
+  return csv.map((row) => parseRow(order, row));
 }
 
 export const columnOrder_TEST = columnOrder;

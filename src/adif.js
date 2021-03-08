@@ -17,25 +17,29 @@ function makeHeader() {
 }
 
 function makeLine(stationCallSign: string, myPark: string, entry: Entry): string {
-  return makeItem('STATION_CALLSIGN', stationCallSign) +
-      makeItem('OPERATOR', '') +
-      makeItem('MY_SIG', 'POTA') +
-      makeItem('MY_SIG_INFO', myPark) +
-      makeItem('CALL', entry.call) +
-      makeItem('QSO_DATE', entry.date) +
-      makeItem('TIME_ON', entry.time) +
-      makeItem('BAND', entry.band.toUpperCase()) +
-      makeItem('MODE', entry.mode) +
-      makeItem('SIG', '') +
-      makeItem('SIG_INFO', entry.sigInfo) +
-      makeItem('NOTES', '') +
-      '<eor>';
+  return (
+    makeItem('STATION_CALLSIGN', stationCallSign) +
+    makeItem('OPERATOR', '') +
+    makeItem('MY_SIG', 'POTA') +
+    makeItem('MY_SIG_INFO', myPark) +
+    makeItem('CALL', entry.call) +
+    makeItem('QSO_DATE', entry.date) +
+    makeItem('TIME_ON', entry.time) +
+    makeItem('BAND', entry.band.toUpperCase()) +
+    makeItem('MODE', entry.mode) +
+    makeItem('SIG', '') +
+    makeItem('SIG_INFO', entry.sigInfo) +
+    makeItem('NOTES', '') +
+    '<eor>'
+  );
 }
 
 export function toAdif(stationCallSign: string, myPark: string, log: Array<Entry>): string {
   const lines = [];
   lines.push(makeHeader());
-  log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry)); });
+  log.forEach((entry) => {
+    lines.push(makeLine(stationCallSign, myPark, entry));
+  });
   return lines.join('\n') + '\n';
 }
 

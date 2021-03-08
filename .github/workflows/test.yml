@@ -14,3 +14,5 @@ jobs:
         run: yarn run flow check
       - name: Run ESLint
         run: yarn run lint
+      - name: Check Prettier
+        run: yarn run check-format

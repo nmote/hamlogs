@@ -79,12 +79,7 @@ export function band(inputParam: string | null): string | null {
 // certain outputs, but that's okay.
 // TODO add more modes
 // TODO infer mode from submode
-const hamModes: Set<string> = new Set([
-  'AM',
-  'CW',
-  'FM',
-  'SSB',
-]);
+const hamModes: Set<string> = new Set(['AM', 'CW', 'FM', 'SSB']);
 
 function normalizeMode(input: string): string {
   return input.toUpperCase();
@@ -104,7 +99,7 @@ function normalizeCall(input: string): string {
 }
 
 export function call(input: string | null): string {
-  invariant(input != null, 'The other station\'s callsign must be provided');
+  invariant(input != null, "The other station's callsign must be provided");
   return normalizeCall(input);
 }
 
