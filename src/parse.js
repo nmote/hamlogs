@@ -26,7 +26,7 @@ for (const [canonical, alternates] of canonicalToAlternates) {
 }
 
 function normalizeName(name) {
-  return name.toLowerCase().replace(/[ -]/g, '_')
+  return name.toLowerCase().replace(/[ -]/g, '_');
 }
 
 function columnOrder(headerRow: Array<string>): Map<string, number> {
@@ -63,7 +63,7 @@ function parseRow(order, row) {
     mode: entry.mode(extractCell(order, row, 'mode')),
     call: entry.call(extractCell(order, row, 'call')),
     sigInfo: entry.sigInfo(extractCell(order, row, 'sig_info')),
-  }
+  };
 }
 
 export function parse(input: string): Array<Entry> {

@@ -9,7 +9,7 @@ function makeItem(name: string, textParam: string): string {
     // TODO consider omitting null entries entirely
     text = '';
   }
-  return `<${name}:${text.length}>${text}`
+  return `<${name}:${text.length}>${text}`;
 }
 
 function makeHeader() {
@@ -29,13 +29,13 @@ function makeLine(stationCallSign: string, myPark: string, entry: Entry): string
       makeItem('SIG', '') +
       makeItem('SIG_INFO', entry.sigInfo) +
       makeItem('NOTES', '') +
-      '<eor>'
+      '<eor>';
 }
 
 export function toAdif(stationCallSign: string, myPark: string, log: Array<Entry>): string {
-  const lines = []
+  const lines = [];
   lines.push(makeHeader());
-  log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry))});
+  log.forEach(entry => { lines.push(makeLine(stationCallSign, myPark, entry)); });
   return lines.join('\n') + '\n';
 }
 

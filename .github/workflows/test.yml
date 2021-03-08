@@ -12,3 +12,5 @@ jobs:
         run: yarn test
       - name: Run Flow
         run: yarn run flow check
+      - name: Run ESLint
+        run: yarn run lint
