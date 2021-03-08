@@ -16,7 +16,8 @@
     "flow": "flow",
     "lint": "eslint src/",
     "check-format": "prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check-all": "yarn run build && yarn run test && yarn run flow && yarn run lint && yarn run check-format"
   },
   "dependencies": {
     "csv": "^5.3.2"
