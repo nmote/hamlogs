@@ -13,7 +13,7 @@ function makeItem(name: string, textParam: string): string {
 }
 
 function makeHeader() {
-  return `hamlogtool by nmote ${makeItem('ProgramID', 'hamlogtool')}<EOH>`;
+  return `hamlogs by nmote ${makeItem('ProgramID', 'hamlogtool')}<EOH>`;
 }
 
 function makeLine(stationCallSign: string, myPark: string, entry: Entry): string {

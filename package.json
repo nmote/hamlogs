@@ -6,7 +6,7 @@
     "hamlogs": "./bin/index.js"
   },
   "main": "index.js",
-  "repository": "git@github.com:nmote/hamlogtool.git",
+  "repository": "git@github.com:nmote/hamlogs.git",
   "author": "nmote",
   "license": "MIT",
   "scripts": {
