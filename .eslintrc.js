@@ -11,7 +11,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['jest'],
+  plugins: ['jest', 'flowtype'],
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
