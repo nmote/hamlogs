@@ -21,7 +21,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/*.test.js'],
+      files: ['src/*.test.js', '.eslintrc.js', 'bin/*'],
       rules: {
         'flowtype/require-valid-file-annotation': [0, 'never'],
       },

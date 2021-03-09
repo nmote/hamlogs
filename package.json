@@ -13,7 +13,7 @@
     "test": "jest src/",
     "build": "babel src -d lib",
     "flow": "flow",
-    "lint": "eslint src/",
+    "lint": "eslint .",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
     "check-all": "yarn run build && yarn run test && yarn run flow check && yarn run lint && yarn run check-format",
