@@ -6,7 +6,7 @@ import {strict as invariant} from 'assert';
 import {parse} from './parse';
 import {toAdif} from './adif';
 
-export function main(inputFile: ?string, callsign: ?string, park: ?string): string {
+export function main(callsign: ?string, park: ?string, inputFile: ?string): string {
   // TODO do proper validaton
   invariant(inputFile != null);
   invariant(callsign != null);
