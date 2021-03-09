@@ -16,7 +16,7 @@
     "lint": "eslint src/",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
-    "check-all": "yarn run build && yarn run test && yarn run flow && yarn run lint && yarn run check-format",
+    "check-all": "yarn run build && yarn run test && yarn run flow check && yarn run lint && yarn run check-format",
     "prepublishOnly": "yarn run build"
   },
   "dependencies": {
