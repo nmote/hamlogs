@@ -17,5 +17,14 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', {avoidEscape: true}],
     semi: ['error', 'always'],
+    'flowtype/require-valid-file-annotation': ['error', 'always', {strict: true}],
   },
+  overrides: [
+    {
+      files: ['src/*.test.js'],
+      rules: {
+        'flowtype/require-valid-file-annotation': [0, 'never'],
+      },
+    },
+  ],
 };
