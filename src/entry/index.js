@@ -1,31 +1,27 @@
 // @flow strict
 
 import type {Result} from '../result';
+import type {SimpleDate} from './date';
 
 import * as result from '../result';
+import {parseDate} from './date';
 
 // TODO use opaque types for date, time, etc.
 
 export type Entry = {|
   call: string,
-  date: string,
+  date: SimpleDate,
   time: string,
   band: string,
   mode: string,
   sigInfo: string | null,
 |};
 
-export function date(input: string | null): Result<string, string> {
+export function date(input: string | null): Result<SimpleDate, string> {
   if (input == null) {
     return result.err('Date must be provided');
   }
-  // TODO relax this restriction, e.g. YYYY-MM-DD should be fine
-  if (input.length !== 8) {
-    // TODO include the actual date text
-    return result.err('Date must be in the format YYYYMMDD');
-  }
-  // TODO do some additional validation
-  return result.ok(input);
+  return parseDate(input);
 }
 
 export function time(input: string | null): Result<string, string> {

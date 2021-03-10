@@ -23,7 +23,7 @@ function makeLine(stationCallSign: string, myPark: string, entry: Entry): string
     makeItem('MY_SIG', 'POTA') +
     makeItem('MY_SIG_INFO', myPark) +
     makeItem('CALL', entry.call) +
-    makeItem('QSO_DATE', entry.date) +
+    makeItem('QSO_DATE', entry.date.toString()) +
     makeItem('TIME_ON', entry.time) +
     makeItem('BAND', entry.band.toUpperCase()) +
     makeItem('MODE', entry.mode) +

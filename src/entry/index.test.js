@@ -3,6 +3,14 @@ import * as result from '../result';
 
 test('Dates are validated', () => {
   expect(entry.date('20210214').kind).toEqual('ok');
+  expect(entry.date('18970214').kind).toEqual('ok');
+  expect(entry.date('21000214').kind).toEqual('ok');
+
+  expect(entry.date('18960214').kind).toEqual('err');
+  expect(entry.date('21010214').kind).toEqual('err');
+  expect(entry.date('20211314').kind).toEqual('err');
+  expect(entry.date('21000232').kind).toEqual('err');
+
   expect(entry.date('202102114').kind).toEqual('err');
   expect(entry.date(null).kind).toEqual('err');
 });
