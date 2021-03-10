@@ -2,7 +2,7 @@
 
 import type {Entry} from './entry';
 
-function makeItem(name: string, textParam: string): string {
+function makeItem(name: string, textParam: string | null): string {
   let text = textParam;
   // TODO handle non-ASCII
   if (text == null) {

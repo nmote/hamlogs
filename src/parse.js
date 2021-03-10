@@ -2,7 +2,6 @@
 
 import type {Entry} from './entry';
 
-// $FlowFixMe[cannot-resolve-module]
 import parseCSV from 'csv-parse/lib/sync';
 
 import * as entry from './entry';

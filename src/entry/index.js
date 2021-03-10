@@ -13,7 +13,7 @@ export type Entry = {|
   time: string,
   band: string,
   mode: string,
-  sigInfo: string,
+  sigInfo: string | null,
 |};
 
 export function date(input: string | null): string {
@@ -63,16 +63,13 @@ function normalizeBand(inputParam: string): string {
   return input.toLowerCase();
 }
 
-export function band(inputParam: string | null): string | null {
-  let input = inputParam;
-  // Band isn't required because the user could specify frequency instead.
+export function band(input: string | null): string {
   // TODO ensure that either band or frequency is provided
-  // TODO infer band from frequency
-  if (input != null) {
-    input = normalizeBand(input);
-    invariant(hamBands.has(input), 'Band must be a valid ham band');
-  }
-  return input;
+  // TODO infer band from frequency and allow the user to not specify band
+  invariant(input != null, 'Band must be included');
+  const band = normalizeBand(input);
+  invariant(hamBands.has(band), 'Band must be a valid ham band');
+  return band;
 }
 
 // We'll use ADIF modes here. They may require summarization or modification for

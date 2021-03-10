@@ -51,7 +51,7 @@ declare module 'csv-parse/lib/ResizeableBuffer' {
 }
 
 declare module 'csv-parse/lib/sync' {
-  declare module.exports: any;
+  declare module.exports: string => Array<Array<string>>;
 }
 
 // Filename aliases
