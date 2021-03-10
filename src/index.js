@@ -6,7 +6,7 @@ import {strict as invariant} from 'assert';
 import {parse} from './parse';
 import {toAdif} from './adif';
 
-function run(callsign: string, park: string, inputText: string): string {
+function CSVToAdif(callsign: string, park: string, inputText: string): string {
   // TODO validate callsign and park
   const log = parse(inputText);
   const adif = toAdif(callsign, park, log);
@@ -19,5 +19,5 @@ export function main(callsign: ?string, park: ?string, inputFile: ?string): stri
   invariant(callsign != null);
   invariant(park != null);
   const inputText = fs.readFileSync(inputFile).toString();
-  return run(callsign, park, inputText);
+  return CSVToAdif(callsign, park, inputText);
 }

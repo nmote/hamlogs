@@ -1,6 +1,6 @@
 // @flow strict
 
-import {main as run} from './run';
+import {main as run} from './index';
 
 export function main() {
   const callsign = process.argv[2];

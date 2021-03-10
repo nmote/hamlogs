@@ -1,4 +1,4 @@
-import {main} from './run';
+import {main} from './index';
 import fs from 'fs';
 
 const CSVPath = __dirname + '/../fixtures/K-3213.csv';
