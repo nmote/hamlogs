@@ -1,20 +1,32 @@
 // @flow strict
 
 import fs from 'fs';
-// $FlowFixMe[missing-export] this export does exist at runtime
-import {strict as invariant} from 'assert';
 
 import {CSVToAdif} from './index';
 
-export function main() {
-  const callsign = process.argv[2];
-  const park = process.argv[3];
-  const inputFile = process.argv[4];
+function usage(): empty {
+  process.stderr.write('Hamlogs by nmote K7NCM\n');
+  process.stderr.write(
+    'Converts a log from CSV to ADIF, suitable for submission to Parks On The Air\n\n'
+  );
+  process.stderr.write('Usage: hamlogs callsign park-id input-file\n');
+  // $FlowFixMe[incompatible-return] process.exit should return `empty`
+  return process.exit(1);
+}
 
-  // TODO do proper validaton
-  invariant(callsign != null);
-  invariant(park != null);
-  invariant(inputFile != null);
+function assertArg(arg: ?string, msg: string): string {
+  if (arg != null) {
+    return arg;
+  } else {
+    process.stderr.write(msg + '\n\n');
+    return usage();
+  }
+}
+
+export function main() {
+  const callsign = assertArg(process.argv[2], "Please provide the operator's callsign");
+  const park = assertArg(process.argv[3], 'Please provide your park identifier');
+  const inputFile = assertArg(process.argv[4], 'Please provide the full path to your CSV file');
 
   const inputText = fs.readFileSync(inputFile).toString();
 
