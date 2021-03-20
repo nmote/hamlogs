@@ -10,7 +10,6 @@ function usage(): empty {
     'Converts a log from CSV to ADIF, suitable for submission to Parks On The Air\n\n'
   );
   process.stderr.write('Usage: hamlogs callsign park-id input-file\n');
-  // $FlowFixMe[incompatible-return] process.exit should return `empty`
   return process.exit(1);
 }
 

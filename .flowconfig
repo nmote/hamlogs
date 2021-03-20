@@ -18,4 +18,4 @@ untyped-import=error
 untyped-type-import=error
 
 [version]
-0.146.0
+0.147.0

@@ -2,7 +2,6 @@
 
 // TODO generate user-friendly error messages
 
-// $FlowFixMe[missing-export] this export does exist at runtime
 import {strict as invariant} from 'assert';
 
 // TODO use opaque types for date, time, etc.
