@@ -4,8 +4,6 @@
 
 import type {Result} from '../result';
 
-import {strict as invariant} from 'assert';
-
 import * as result from '../result';
 
 // TODO use opaque types for date, time, etc.
@@ -32,12 +30,14 @@ export function date(input: string | null): Result<string, string> {
   return result.ok(input);
 }
 
-// TODO remove invariant calls below in favor of returning result.err
-
 export function time(input: string | null): Result<string, string> {
-  invariant(input != null, 'Time must be provided');
+  if (input == null) {
+    return result.err('Time must be provided');
+  }
   // TODO also allow HHMMSS, HH:MM, HH:MM:SS
-  invariant(input.length === 4, 'Time must be in the format HHMM');
+  if (input.length !== 4) {
+    return result.err('Time must be in the format HHMM');
+  }
   // TODO do some additional validation
   return result.ok(input + '00');
 }
@@ -76,9 +76,13 @@ function normalizeBand(inputParam: string): string {
 export function band(input: string | null): Result<string, string> {
   // TODO ensure that either band or frequency is provided
   // TODO infer band from frequency and allow the user to not specify band
-  invariant(input != null, 'Band must be included');
+  if (input == null) {
+    return result.err('Band must be included');
+  }
   const band = normalizeBand(input);
-  invariant(hamBands.has(band), 'Band must be a valid ham band');
+  if (!hamBands.has(band)) {
+    return result.err('Band must be a valid ham band');
+  }
   return result.ok(band);
 }
 
@@ -94,9 +98,13 @@ function normalizeMode(input: string): string {
 
 export function mode(inputParam: string | null): Result<string, string> {
   let input = inputParam;
-  invariant(input != null, 'Mode must be included');
+  if (input == null) {
+    return result.err('Mode must be included');
+  }
   input = normalizeMode(input);
-  invariant(hamModes.has(input), 'Mode must be valid');
+  if (!hamModes.has(input)) {
+    return result.err('Mode must be valid');
+  }
   return result.ok(input);
 }
 
@@ -106,7 +114,9 @@ function normalizeCall(input: string): string {
 }
 
 export function call(input: string | null): Result<string, string> {
-  invariant(input != null, "The other station's callsign must be provided");
+  if (input == null) {
+    return result.err("The other station's callsign must be provided");
+  }
   return result.ok(normalizeCall(input));
 }
 

@@ -17,6 +17,11 @@ const malformedCSVPath = __dirname + '/../fixtures/K-3213-malformed.csv';
 test('It gives correct errors for an invalid CSV file', () => {
   const CSVText = fs.readFileSync(malformedCSVPath).toString();
   expect(CSVToAdif('K7NCM', 'K-3213', CSVText)).toEqual(
-    result.err(['Date must be in the format YYYYMMDD', 'Date must be in the format YYYYMMDD'])
+    result.err([
+      'Date must be in the format YYYYMMDD',
+      'Time must be in the format HHMM',
+      'Date must be in the format YYYYMMDD',
+      'Band must be a valid ham band',
+    ])
   );
 });
