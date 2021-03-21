@@ -47,5 +47,6 @@ export function main(): void {
     for (const err of adif.err) {
       process.stderr.write(`  ${err}\n`);
     }
+    process.exit(1);
   }
 }
