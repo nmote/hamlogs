@@ -128,15 +128,15 @@ export function parse(input: string): Result<Array<Entry>, Array<string>> {
   const order = columnOrder(csv.shift());
 
   let results = result.ok([]);
-  for (const row of csv) {
+  csv.forEach((row, i) => {
     const entryResult = parseRow(order, row);
     if (entryResult.kind === 'ok') {
       results = addSuccess(results, entryResult.value);
     } else {
-      // TODO include the line number in the error text
-      results = addErrors(results, entryResult.err);
+      const errs = entryResult.err.map((err) => `Entry #${i + 1}: ${err}`);
+      results = addErrors(results, errs);
     }
-  }
+  });
   return results;
 }
 

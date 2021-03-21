@@ -18,10 +18,10 @@ test('It gives correct errors for an invalid CSV file', () => {
   const CSVText = fs.readFileSync(malformedCSVPath).toString();
   expect(CSVToAdif('K7NCM', 'K-3213', CSVText)).toEqual(
     result.err([
-      'Date must be in the format YYYYMMDD',
-      'Time must be in the format HHMM',
-      'Date must be in the format YYYYMMDD',
-      'Band must be a valid ham band',
+      'Entry #1: Date must be in the format YYYYMMDD',
+      'Entry #1: Time must be in the format HHMM',
+      'Entry #2: Date must be in the format YYYYMMDD',
+      'Entry #2: Band must be a valid ham band',
     ])
   );
 });
