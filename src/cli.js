@@ -39,5 +39,13 @@ export function main(): void {
     return process.exit(1);
   }
 
-  process.stdout.write(CSVToAdif(callsign, park, inputText));
+  const adif = CSVToAdif(callsign, park, inputText);
+  if (adif.kind === 'ok') {
+    process.stdout.write(adif.value);
+  } else {
+    process.stderr.write('Error(s) encountered while converting log:\n');
+    for (const err of adif.err) {
+      process.stderr.write(`  ${err}\n`);
+    }
+  }
 }

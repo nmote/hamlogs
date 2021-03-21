@@ -2,7 +2,11 @@
 
 // TODO generate user-friendly error messages
 
+import type {Result} from '../result';
+
 import {strict as invariant} from 'assert';
+
+import * as result from '../result';
 
 // TODO use opaque types for date, time, etc.
 
@@ -15,20 +19,27 @@ export type Entry = {|
   sigInfo: string | null,
 |};
 
-export function date(input: string | null): string {
-  invariant(input != null, 'Date must be provided');
+export function date(input: string | null): Result<string, string> {
+  if (input == null) {
+    return result.err('Date must be provided');
+  }
   // TODO relax this restriction, e.g. YYYY-MM-DD should be fine
-  invariant(input.length === 8, 'Date must be in the format YYYYMMDD');
+  if (input.length !== 8) {
+    // TODO include the actual date text
+    return result.err('Date must be in the format YYYYMMDD');
+  }
   // TODO do some additional validation
-  return input;
+  return result.ok(input);
 }
 
-export function time(input: string | null): string {
+// TODO remove invariant calls below in favor of returning result.err
+
+export function time(input: string | null): Result<string, string> {
   invariant(input != null, 'Time must be provided');
   // TODO also allow HHMMSS, HH:MM, HH:MM:SS
   invariant(input.length === 4, 'Time must be in the format HHMM');
   // TODO do some additional validation
-  return input + '00';
+  return result.ok(input + '00');
 }
 
 // TODO add more ham bands
@@ -62,13 +73,13 @@ function normalizeBand(inputParam: string): string {
   return input.toLowerCase();
 }
 
-export function band(input: string | null): string {
+export function band(input: string | null): Result<string, string> {
   // TODO ensure that either band or frequency is provided
   // TODO infer band from frequency and allow the user to not specify band
   invariant(input != null, 'Band must be included');
   const band = normalizeBand(input);
   invariant(hamBands.has(band), 'Band must be a valid ham band');
-  return band;
+  return result.ok(band);
 }
 
 // We'll use ADIF modes here. They may require summarization or modification for
@@ -81,12 +92,12 @@ function normalizeMode(input: string): string {
   return input.toUpperCase();
 }
 
-export function mode(inputParam: string | null): string {
+export function mode(inputParam: string | null): Result<string, string> {
   let input = inputParam;
   invariant(input != null, 'Mode must be included');
   input = normalizeMode(input);
   invariant(hamModes.has(input), 'Mode must be valid');
-  return input;
+  return result.ok(input);
 }
 
 function normalizeCall(input: string): string {
@@ -94,12 +105,12 @@ function normalizeCall(input: string): string {
   return input.toUpperCase();
 }
 
-export function call(input: string | null): string {
+export function call(input: string | null): Result<string, string> {
   invariant(input != null, "The other station's callsign must be provided");
-  return normalizeCall(input);
+  return result.ok(normalizeCall(input));
 }
 
-export function sigInfo(input: string | null): string | null {
+export function sigInfo(input: string | null): Result<string | null, string> {
   // TODO Validate park number for when this is used for POTA
-  return input;
+  return result.ok(input);
 }

@@ -1,10 +1,13 @@
 // @flow strict
 
 import type {Entry} from './entry';
+import type {Result} from './result';
 
 import parseCSV from 'csv-parse/lib/sync';
 
 import * as entry from './entry';
+import * as result from './result';
+import {objectValues} from './utils';
 
 const canonicalToAlternates = new Map([
   ['date', []],
@@ -53,9 +56,43 @@ function extractCell(order, row, name) {
   return result;
 }
 
-function parseRow(order, row) {
+type EntryResult = $ObjMap<Entry, <T>(T) => Result<T, string>>;
+
+function collectErrors<E>(arr: $ReadOnlyArray<Result<mixed, E>>): Array<E> {
+  const errors = [];
+  for (const x of arr) {
+    if (x.kind === 'err') {
+      errors.push(x.err);
+    }
+  }
+  return errors;
+}
+
+function entryResultToEntry(entry: EntryResult): Result<Entry, Array<string>> {
+  if (
+    entry.date.kind === 'ok' &&
+    entry.time.kind === 'ok' &&
+    entry.band.kind === 'ok' &&
+    entry.mode.kind === 'ok' &&
+    entry.call.kind === 'ok' &&
+    entry.sigInfo.kind === 'ok'
+  ) {
+    return result.ok({
+      date: entry.date.value,
+      time: entry.time.value,
+      band: entry.band.value,
+      mode: entry.mode.value,
+      call: entry.call.value,
+      sigInfo: entry.sigInfo.value,
+    });
+  } else {
+    return result.err(collectErrors(objectValues<Result<mixed, string>>(entry)));
+  }
+}
+
+function parseRow(order, row): Result<Entry, Array<string>> {
   // TODO handle various possible formats for these entries
-  return {
+  const results: EntryResult = {
     date: entry.date(extractCell(order, row, 'date')),
     time: entry.time(extractCell(order, row, 'time')),
     band: entry.band(extractCell(order, row, 'band')),
@@ -63,13 +100,44 @@ function parseRow(order, row) {
     call: entry.call(extractCell(order, row, 'call')),
     sigInfo: entry.sigInfo(extractCell(order, row, 'sig_info')),
   };
+  return entryResultToEntry(results);
 }
 
-export function parse(input: string): Array<Entry> {
+// Mutates the accumulator, aliases the errors
+function addErrors<V, E>(accumulator: Result<V, Array<E>>, errs: Array<E>): Result<V, Array<E>> {
+  if (accumulator.kind === 'ok') {
+    return result.err(errs);
+  } else {
+    accumulator.err.push(...errs);
+    return accumulator;
+  }
+}
+
+// Mutates the accumulator
+function addSuccess<V, E>(accumulator: Result<Array<V>, E>, value: V): Result<Array<V>, E> {
+  if (accumulator.kind === 'ok') {
+    accumulator.value.push(value);
+    return accumulator;
+  } else {
+    return accumulator;
+  }
+}
+
+export function parse(input: string): Result<Array<Entry>, Array<string>> {
   const csv = parseCSV(input);
   const order = columnOrder(csv.shift());
 
-  return csv.map((row) => parseRow(order, row));
+  let results = result.ok([]);
+  for (const row of csv) {
+    const entryResult = parseRow(order, row);
+    if (entryResult.kind === 'ok') {
+      results = addSuccess(results, entryResult.value);
+    } else {
+      // TODO include the line number in the error text
+      results = addErrors(results, entryResult.err);
+    }
+  }
+  return results;
 }
 
 export const columnOrder_TEST = columnOrder;
