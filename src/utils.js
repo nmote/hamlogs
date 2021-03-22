@@ -7,3 +7,7 @@ export function objectValues<Values>(obj: {+[string]: Values}): Array<Values> {
   // $FlowIgnore[unclear-type]
   return (Object.values(obj): any);
 }
+
+export function paddedNumberToString(x: number, minLength: number): string {
+  return x.toString().padStart(minLength, '0');
+}
