@@ -1,7 +1,5 @@
 // @flow strict
 
-// TODO generate user-friendly error messages
-
 import type {Result} from '../result';
 
 import * as result from '../result';
