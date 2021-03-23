@@ -38,35 +38,102 @@ class SimpleDateImpl {
 
 const genericDateErrorText = 'Date must be in the format YYYYMMDD';
 
+function isAllNumbers(str: string): boolean {
+  return /^\d+$/.test(str);
+}
+
+type ParseEnv = {|
+  +input: string,
+  i: number,
+|};
+
+function withParserEnv<V, E>(
+  input: string,
+  tooLongError: E,
+  f: (ParseEnv) => Result<V, E>
+): Result<V, E> {
+  const env: ParseEnv = {
+    input,
+    i: 0,
+  };
+  return result.bind(f(env), (v) => {
+    if (env.i !== env.input.length) {
+      return result.err(tooLongError);
+    } else {
+      return result.ok(v);
+    }
+  });
+}
+
+function consume(env: ParseEnv, chars: number): string | null {
+  const end = env.i + chars;
+  if (end > env.input.length) {
+    return null;
+  }
+  const str = env.input.substring(env.i, end);
+  env.i = end;
+  return str;
+}
+
+function consumeInt(env: ParseEnv, chars: number): number | null {
+  const text = consume(env, chars);
+  if (text == null || !isAllNumbers(text)) {
+    return null;
+  }
+  return parseInt(text);
+}
+
+function parseYear(env: ParseEnv): Result<number, string> {
+  const year = consumeInt(env, 4);
+  if (year == null) {
+    return result.err(genericDateErrorText);
+  }
+  return result.ok(year);
+}
+
+function parseMonth(env: ParseEnv): Result<number, string> {
+  const month = consumeInt(env, 2);
+  if (month == null) {
+    return result.err(genericDateErrorText);
+  }
+  return result.ok(month);
+}
+
+function parseDay(env: ParseEnv): Result<number, string> {
+  const day = consumeInt(env, 2);
+  if (day == null) {
+    return result.err(genericDateErrorText);
+  }
+  return result.ok(day);
+}
+
 export function parseDate(input: string): Result<SimpleDate, string> {
-  // TODO relax these restrictions, e.g. YYYY-MM-DD should be fine
-  if (input.length !== 8) {
-    // TODO include the actual date text
-    return result.err(genericDateErrorText);
-  }
-  if (!/^\d+$/.test(input)) {
-    return result.err(genericDateErrorText);
-  }
-  const year = parseInt(input.substring(0, 4));
-  const month = parseInt(input.substring(4, 6));
-  const day = parseInt(input.substring(6, 8));
+  return withParserEnv(input, genericDateErrorText, (env) => {
+    return result.bind(parseYear(env), (year) => {
+      return result.bind(parseMonth(env), (month) => {
+        return result.bind(parseDay(env), (day) => {
+          // If this is still in use in 2100, it won't be my problem
+          if (year < 1897 || year > 2100) {
+            return result.err(
+              `The provided year (${paddedNumberToString(year, 4)}) is outside a reasonable range`
+            );
+          }
 
-  // If this is still in use in 2100, it won't be my problem
-  if (year < 1897 || year > 2100) {
-    return result.err(
-      `The provided year (${paddedNumberToString(year, 4)}) is outside a reasonable range`
-    );
-  }
+          if (month < 1 || month > 12) {
+            return result.err(
+              `The month provided (${paddedNumberToString(month, 2)}) is not valid`
+            );
+          }
 
-  if (month < 1 || month > 12) {
-    return result.err(`The month provided (${paddedNumberToString(month, 2)}) is not valid`);
-  }
+          // This will allow things like February 31st. Oh well. Switching to Temporal
+          // someday should sort it out.
+          if (day < 1 || day > 31) {
+            return result.err(`The day provided (${paddedNumberToString(day, 2)}) is not valid`);
+          }
 
-  // This will allow things like February 31st. Oh well. Switching to Temporal
-  // someday should sort it out.
-  if (day < 1 || day > 31) {
-    return result.err(`The day provided (${paddedNumberToString(day, 2)}) is not valid`);
-  }
-
-  return result.ok(new SimpleDateImpl(year, month, day));
+          return result.ok(new SimpleDateImpl(year, month, day));
+        });
+      });
+    });
+  });
 }
