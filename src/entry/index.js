@@ -82,9 +82,22 @@ export function band(input: string | null): Result<string, string> {
 
 // We'll use ADIF modes here. They may require summarization or modification for
 // certain outputs, but that's okay.
+//
+// See: https://adif.org/311/ADIF_311.htm#Mode_Enumeration
+//
 // TODO add more modes
 // TODO infer mode from submode
-const hamModes: Set<string> = new Set(['AM', 'CW', 'FM', 'SSB']);
+const hamModes: Set<string> = new Set([
+  'AM',
+  'CW',
+  'FM',
+  'FT8',
+  'PSK',
+  'RTTY',
+  'SSTV',
+  'OLIVIA',
+  'SSB',
+]);
 
 function normalizeMode(input: string): string {
   return input.toUpperCase();
