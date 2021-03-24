@@ -36,7 +36,9 @@ class SimpleDateImpl {
   }
 }
 
-const genericDateErrorText = 'Date must be in the format YYYYMMDD';
+// TODO See if more specific errors can be issued where this is used
+// This is a bit stricter than what we can actually handle, but that seems fine
+const genericDateErrorText = 'Date must be in the format YYYYMMDD, YYYY-MM-DD, or YYYY/MM/DD';
 
 function isAllNumbers(str: string): boolean {
   return /^\d+$/.test(str);
@@ -75,6 +77,14 @@ function consume(env: ParseEnv, chars: number): string | null {
   return str;
 }
 
+function peek(env: ParseEnv, chars: number): string | null {
+  const end = env.i + chars;
+  if (end > env.input.length) {
+    return null;
+  }
+  return env.input.substring(env.i, end);
+}
+
 function consumeInt(env: ParseEnv, chars: number): number | null {
   const text = consume(env, chars);
   if (text == null || !isAllNumbers(text)) {
@@ -107,10 +117,22 @@ function parseDay(env: ParseEnv): Result<number, string> {
   return result.ok(day);
 }
 
+function parseSeparator(env: ParseEnv): void {
+  // All we need to do here is consume the separator character, if it exists. If
+  // we've hit EOF (nextChar === null), we will handle it when parsing the next
+  // piece anyway.
+  const nextChar = peek(env, 1);
+  if (nextChar === '-' || nextChar === '/') {
+    consume(env, 1);
+  }
+}
+
 export function parseDate(input: string): Result<SimpleDate, string> {
   return withParserEnv(input, genericDateErrorText, (env) => {
     return result.bind(parseYear(env), (year) => {
+      parseSeparator(env);
       return result.bind(parseMonth(env), (month) => {
+        parseSeparator(env);
         return result.bind(parseDay(env), (day) => {
           // If this is still in use in 2100, it won't be my problem
           if (year < 1897 || year > 2100) {
