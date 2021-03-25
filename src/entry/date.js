@@ -1,9 +1,11 @@
 // @flow strict
 
 import type {Result} from '../result';
+import type {ParseEnv} from '../parsing';
 
 import {paddedNumberToString} from '../utils';
 import * as result from '../result';
+import {withParserEnv, consume, peek} from '../parsing';
 
 // The built-in Date library has many pitfalls, and while it would certainly be
 // a better choice for actually manipulating dates, a very simple custom Date
@@ -42,47 +44,6 @@ const genericDateErrorText = 'Date must be in the format YYYYMMDD, YYYY-MM-DD, o
 
 function isAllNumbers(str: string): boolean {
   return /^\d+$/.test(str);
-}
-
-type ParseEnv = {|
-  +input: string,
-  i: number,
-|};
-
-function withParserEnv<V, E>(
-  input: string,
-  tooLongError: E,
-  f: (ParseEnv) => Result<V, E>
-): Result<V, E> {
-  const env: ParseEnv = {
-    input,
-    i: 0,
-  };
-  return result.bind(f(env), (v) => {
-    if (env.i !== env.input.length) {
-      return result.err(tooLongError);
-    } else {
-      return result.ok(v);
-    }
-  });
-}
-
-function consume(env: ParseEnv, chars: number): string | null {
-  const end = env.i + chars;
-  if (end > env.input.length) {
-    return null;
-  }
-  const str = env.input.substring(env.i, end);
-  env.i = end;
-  return str;
-}
-
-function peek(env: ParseEnv, chars: number): string | null {
-  const end = env.i + chars;
-  if (end > env.input.length) {
-    return null;
-  }
-  return env.input.substring(env.i, end);
 }
 
 function consumeInt(env: ParseEnv, chars: number): number | null {
