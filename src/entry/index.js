@@ -2,6 +2,7 @@
 
 import type {Result} from '../result';
 import type {SimpleDate} from './date';
+import type {SimpleTime} from './time';
 
 import * as result from '../result';
 import {parseDate} from './date';
@@ -12,7 +13,7 @@ import {parseTime} from './time';
 export type Entry = {|
   call: string,
   date: SimpleDate,
-  time: string,
+  time: SimpleTime,
   band: string,
   mode: string,
   sigInfo: string | null,
@@ -25,7 +26,7 @@ export function date(input: string | null): Result<SimpleDate, string> {
   return parseDate(input);
 }
 
-export function time(input: string | null): Result<string, string> {
+export function time(input: string | null): Result<SimpleTime, string> {
   if (input == null) {
     return result.err('Time must be provided');
   }
