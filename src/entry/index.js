@@ -5,6 +5,7 @@ import type {SimpleDate} from './date';
 
 import * as result from '../result';
 import {parseDate} from './date';
+import {parseTime} from './time';
 
 // TODO use opaque types for date, time, etc.
 
@@ -28,12 +29,7 @@ export function time(input: string | null): Result<string, string> {
   if (input == null) {
     return result.err('Time must be provided');
   }
-  // TODO also allow HHMMSS, HH:MM, HH:MM:SS
-  if (input.length !== 4) {
-    return result.err('Time must be in the format HHMM');
-  }
-  // TODO do some additional validation
-  return result.ok(input + '00');
+  return parseTime(input);
 }
 
 // TODO add more ham bands
