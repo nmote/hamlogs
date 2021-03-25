@@ -38,28 +38,24 @@ class SimpleDateImpl {
   }
 }
 
-function parseYear(env: ParseEnv): Result<number, null> {
-  const year = consumeInt(env, 4);
-  if (year == null) {
+function parseInt(env: ParseEnv, length: number): Result<number, null> {
+  const text = consumeInt(env, length);
+  if (text == null) {
     return result.err(null);
   }
-  return result.ok(year);
+  return result.ok(text);
+}
+
+function parseYear(env: ParseEnv): Result<number, null> {
+  return parseInt(env, 4);
 }
 
 function parseMonth(env: ParseEnv): Result<number, null> {
-  const month = consumeInt(env, 2);
-  if (month == null) {
-    return result.err(null);
-  }
-  return result.ok(month);
+  return parseInt(env, 2);
 }
 
 function parseDay(env: ParseEnv): Result<number, null> {
-  const day = consumeInt(env, 2);
-  if (day == null) {
-    return result.err(null);
-  }
-  return result.ok(day);
+  return parseInt(env, 2);
 }
 
 function parseSeparator(env: ParseEnv): void {
