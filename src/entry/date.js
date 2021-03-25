@@ -5,7 +5,7 @@ import type {ParseEnv} from '../parsing';
 
 import {paddedNumberToString} from '../utils';
 import * as result from '../result';
-import {withParserEnv, consume, peek} from '../parsing';
+import {withParserEnv, consume, peek, consumeInt} from '../parsing';
 
 // The built-in Date library has many pitfalls, and while it would certainly be
 // a better choice for actually manipulating dates, a very simple custom Date
@@ -36,18 +36,6 @@ class SimpleDateImpl {
       paddedNumberToString(this.day, 2)
     );
   }
-}
-
-function isAllNumbers(str: string): boolean {
-  return /^\d+$/.test(str);
-}
-
-function consumeInt(env: ParseEnv, chars: number): number | null {
-  const text = consume(env, chars);
-  if (text == null || !isAllNumbers(text)) {
-    return null;
-  }
-  return parseInt(text);
 }
 
 function parseYear(env: ParseEnv): Result<number, null> {

@@ -44,3 +44,15 @@ export function peek(env: ParseEnv, chars: number): string | null {
   }
   return env.input.substring(env.i, end);
 }
+
+function isAllNumbers(str: string): boolean {
+  return /^\d+$/.test(str);
+}
+
+export function consumeInt(env: ParseEnv, chars: number): number | null {
+  const text = consume(env, chars);
+  if (text == null || !isAllNumbers(text)) {
+    return null;
+  }
+  return parseInt(text);
+}
