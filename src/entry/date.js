@@ -38,7 +38,7 @@ class SimpleDateImpl {
   }
 }
 
-function parseInt(env: ParseEnv, length: number): Result<number, null> {
+function parseInteger(env: ParseEnv, length: number): Result<number, null> {
   const text = consumeInt(env, length);
   if (text == null) {
     return result.err(null);
@@ -47,15 +47,15 @@ function parseInt(env: ParseEnv, length: number): Result<number, null> {
 }
 
 function parseYear(env: ParseEnv): Result<number, null> {
-  return parseInt(env, 4);
+  return parseInteger(env, 4);
 }
 
 function parseMonth(env: ParseEnv): Result<number, null> {
-  return parseInt(env, 2);
+  return parseInteger(env, 2);
 }
 
 function parseDay(env: ParseEnv): Result<number, null> {
-  return parseInt(env, 2);
+  return parseInteger(env, 2);
 }
 
 function parseSeparator(env: ParseEnv): void {
