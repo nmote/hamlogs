@@ -3,6 +3,7 @@
 import type {Result} from './result';
 
 import * as result from './result';
+import {maybeToResult} from './utils';
 
 export opaque type ParseEnv = {|
   +input: string,
@@ -55,4 +56,8 @@ export function consumeInt(env: ParseEnv, chars: number): number | null {
     return null;
   }
   return parseInt(text);
+}
+
+export function parseInteger(env: ParseEnv, length: number): Result<number, null> {
+  return maybeToResult(consumeInt(env, length), null);
 }

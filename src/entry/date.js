@@ -3,9 +3,9 @@
 import type {Result} from '../result';
 import type {ParseEnv} from '../parsing';
 
-import {paddedNumberToString, maybeToResult} from '../utils';
+import {paddedNumberToString} from '../utils';
 import * as result from '../result';
-import {withParserEnv, consume, peek, consumeInt} from '../parsing';
+import {withParserEnv, consume, peek, parseInteger} from '../parsing';
 
 // The built-in Date library has many pitfalls, and while it would certainly be
 // a better choice for actually manipulating dates, a very simple custom Date
@@ -36,10 +36,6 @@ class SimpleDateImpl {
       paddedNumberToString(this.day, 2)
     );
   }
-}
-
-function parseInteger(env: ParseEnv, length: number): Result<number, null> {
-  return maybeToResult(consumeInt(env, length), null);
 }
 
 function parseYear(env: ParseEnv): Result<number, null> {
