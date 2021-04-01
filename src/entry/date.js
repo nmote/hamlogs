@@ -3,7 +3,7 @@
 import type {Result} from '../result';
 import type {ParseEnv} from '../parsing';
 
-import {paddedNumberToString} from '../utils';
+import {paddedNumberToString, maybeToResult} from '../utils';
 import * as result from '../result';
 import {withParserEnv, consume, peek, consumeInt} from '../parsing';
 
@@ -39,11 +39,7 @@ class SimpleDateImpl {
 }
 
 function parseInteger(env: ParseEnv, length: number): Result<number, null> {
-  const text = consumeInt(env, length);
-  if (text == null) {
-    return result.err(null);
-  }
-  return result.ok(text);
+  return maybeToResult(consumeInt(env, length), null);
 }
 
 function parseYear(env: ParseEnv): Result<number, null> {
