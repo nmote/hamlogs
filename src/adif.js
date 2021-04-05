@@ -19,7 +19,6 @@ function makeHeader() {
 function makeLine(stationCallSign: string, myPark: string, entry: Entry): string {
   return (
     makeItem('STATION_CALLSIGN', stationCallSign) +
-    makeItem('OPERATOR', '') +
     makeItem('MY_SIG', 'POTA') +
     makeItem('MY_SIG_INFO', myPark) +
     makeItem('CALL', entry.call) +
@@ -27,9 +26,7 @@ function makeLine(stationCallSign: string, myPark: string, entry: Entry): string
     makeItem('TIME_ON', entry.time.toString()) +
     makeItem('BAND', entry.band.toUpperCase()) +
     makeItem('MODE', entry.mode) +
-    makeItem('SIG', '') +
     makeItem('SIG_INFO', entry.sigInfo) +
-    makeItem('NOTES', '') +
     '<eor>'
   );
 }
