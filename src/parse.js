@@ -91,7 +91,6 @@ function entryResultToEntry(entry: EntryResult): Result<Entry, Array<string>> {
 }
 
 function parseRow(order, row): Result<Entry, Array<string>> {
-  // TODO handle various possible formats for these entries
   const results: EntryResult = {
     date: entry.date(extractCell(order, row, 'date')),
     time: entry.time(extractCell(order, row, 'time')),
