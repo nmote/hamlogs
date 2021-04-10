@@ -1,6 +1,6 @@
 {
   "name": "hamlogs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Converts between various ham logging formats",
   "bin": {
     "hamlogs": "./bin/index.js"
