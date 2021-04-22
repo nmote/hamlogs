@@ -3,7 +3,7 @@
 import type {Entry} from './entry';
 import type {Result} from './result';
 
-import parseCSV from 'csv-parse/lib/sync';
+import * as Papa from 'papaparse';
 
 import * as entry from './entry';
 import * as result from './result';
@@ -123,7 +123,9 @@ function addSuccess<V, E>(accumulator: Result<Array<V>, E>, value: V): Result<Ar
 }
 
 export function parse(input: string): Result<Array<Entry>, Array<string>> {
-  const csv = parseCSV(input);
+  // TODO add Flow typedefs for this
+  // TODO handle errors
+  const csv = Papa.parse(input, {header: false, skipEmptyLines: true}).data;
   const order = columnOrder(csv.shift());
 
   let results = result.ok([]);
