@@ -14,11 +14,59 @@
  */
 
 declare module 'papaparse' {
+  // TODO figure out the types for the `empty` entries
+  declare type Config = {|
+    delimiter?: string,
+    newline?: string,
+    quoteChar?: string,
+    escapeChar?: string,
+    header?: bool,
+    transformHeader?: ?empty,
+    dynamicTyping?: bool,
+    preview?: number,
+    encoding?: string,
+    worker?: bool,
+    comments?: bool,
+    step?: ?empty,
+    complete?: ?empty,
+    error?: ?empty,
+    download?: boolean,
+    downloadRequestHeaders?: ?empty,
+    downloadRequestBody?: ?empty,
+    skipEmptyLines?: boolean,
+    chunk?: ?empty,
+    chunkSize?: ?empty,
+    fastMode?: ?bool,
+    beforeFirstChunk?: ?empty,
+    withCredentials?: ?bool,
+    transform?: ?empty,
+    delimitersToGuess?: Array<string>,
+  |};
+
+  declare type ErrorType = 'Quotes' | 'Delimiter' | 'FieldMismatch';
+  declare type ErrorCode = 'MissingQuotes' | 'UndetectableDelimiter' | 'TooFewFields' | 'TooManyFields';
+  declare type Error = {|
+    type: ErrorType,
+    code: ErrorCode,
+    message: string,
+    row?: number,
+  |};
+
+  declare type Meta = {|
+    delimiter?: string,
+    linebreak?: string,
+    aborted?: bool,
+    fields?: Array<string>,
+    truncated?: bool,
+  |}
+
   declare type ParseResults = {|
     data: Array<Array<string>>,
+    errors: Array<Error>,
+    meta: Meta,
   |};
 
   declare module.exports: {|
-    parse(csvString: string, config?: {...}): ParseResults,
+    parse(csvString: string, config?: Config): ParseResults,
   |};
 }
