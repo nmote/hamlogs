@@ -123,9 +123,16 @@ function addSuccess<V, E>(accumulator: Result<Array<V>, E>, value: V): Result<Ar
 }
 
 export function parse(input: string): Result<Array<Entry>, Array<string>> {
-  // TODO add Flow typedefs for this
-  // TODO handle errors
-  const csv = Papa.parse(input, {header: false, skipEmptyLines: true}).data;
+  const csvResult = Papa.parse(input, {header: false, skipEmptyLines: true});
+  if (csvResult.errors.length > 0) {
+    const errors = csvResult.errors.map((err) => {
+      const inRowText = err.row == null ? '' : ` in row #${err.row}`;
+      return `Problem parsing CSV${inRowText}: ${err.message}`;
+    });
+    return result.err(errors);
+  }
+  const csv = csvResult.data;
+
   const order = columnOrder(csv.shift());
 
   let results = result.ok([]);
