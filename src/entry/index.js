@@ -33,24 +33,38 @@ export function time(input: string | null): Result<SimpleTime, string> {
   return parseTime(input);
 }
 
+class Range {
+  +start: number;
+  +end: number;
+  constructor(start, end) {
+    this.start = start;
+    this.end = end;
+  }
+
+  contains(x) {
+    return this.start <= x && this.end >= x;
+  }
+}
+
 // TODO add more ham bands
-const hamBands: Set<string> = new Set([
-  '2200m',
-  '630m',
-  '160m',
-  '80m',
-  '60m',
-  '40m',
-  '30m',
-  '20m',
-  '17m',
-  '15m',
-  '12m',
-  '10m',
-  '6m',
-  '2m',
-  '1.25m',
-  '70cm',
+// TODO check frequency ranges against international allocations
+const hamBands: Map<string, Range> = new Map([
+  ['2200m', new Range(0.1357, 0.1378)],
+  ['630m', new Range(0.472, 0.479)],
+  ['160m', new Range(1.8, 2.0)],
+  ['80m', new Range(3.5, 4.0)],
+  ['60m', new Range(5.3305, 5.4065)],
+  ['40m', new Range(7.0, 7.3)],
+  ['30m', new Range(10.1, 10.15)],
+  ['20m', new Range(14.0, 14.35)],
+  ['17m', new Range(18.068, 18.168)],
+  ['15m', new Range(21.0, 21.45)],
+  ['12m', new Range(24.89, 24.99)],
+  ['10m', new Range(28.0, 29.7)],
+  ['6m', new Range(50.0, 54.0)],
+  ['2m', new Range(144.0, 148.0)],
+  ['1.25m', new Range(219.0, 225.0)],
+  ['70cm', new Range(420.0, 450.0)],
 ]);
 
 function normalizeBand(inputParam: string): string {
@@ -64,17 +78,32 @@ function normalizeBand(inputParam: string): string {
   return input.toLowerCase();
 }
 
-export function band(input: string | null): Result<string, string> {
-  // TODO ensure that either band or frequency is provided
-  // TODO infer band from frequency and allow the user to not specify band
-  if (input == null) {
-    return result.err('Band must be included');
+export function band(bandInput: string | null, freqInput: string | null): Result<string, string> {
+  if (bandInput != null) {
+    const band = normalizeBand(bandInput);
+    if (!hamBands.has(band)) {
+      return result.err('Band must be a valid ham band');
+    }
+    return result.ok(band);
+  } else if (freqInput != null) {
+    const freq = Number.parseFloat(freqInput);
+
+    let matchingBand = null;
+    for (const [b, range] of hamBands) {
+      if (range.contains(freq)) {
+        matchingBand = b;
+        break;
+      }
+    }
+
+    if (matchingBand == null) {
+      return result.err(`No band found for frequency ${freq} MHz`);
+    } else {
+      return result.ok(matchingBand);
+    }
+  } else {
+    return result.err('Band or frequency must be included');
   }
-  const band = normalizeBand(input);
-  if (!hamBands.has(band)) {
-    return result.err('Band must be a valid ham band');
-  }
-  return result.ok(band);
 }
 
 // We'll use ADIF modes here. They may require summarization or modification for

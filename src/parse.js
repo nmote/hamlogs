@@ -94,7 +94,7 @@ function parseRow(order, row): Result<Entry, Array<string>> {
   const results: EntryResult = {
     date: entry.date(extractCell(order, row, 'date')),
     time: entry.time(extractCell(order, row, 'time')),
-    band: entry.band(extractCell(order, row, 'band')),
+    band: entry.band(extractCell(order, row, 'band'), null),
     mode: entry.mode(extractCell(order, row, 'mode')),
     call: entry.call(extractCell(order, row, 'call')),
     sigInfo: entry.sigInfo(extractCell(order, row, 'sig_info')),
