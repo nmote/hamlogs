@@ -16,6 +16,7 @@ import {withParserEnv, consume, peek, parseInteger} from '../parsing';
 // https://tc39.es/proposal-temporal/docs/index.html
 export interface SimpleDate {
   toString(): string;
+  toSOTAString(): string;
 }
 
 class SimpleDateImpl {
@@ -34,6 +35,19 @@ class SimpleDateImpl {
       paddedNumberToString(this.year, 4) +
       paddedNumberToString(this.month, 2) +
       paddedNumberToString(this.day, 2)
+    );
+  }
+
+  toSOTAString() {
+    // Two digit year is recommended by the SOTA docs:
+    // https://www.sotadata.org.uk/en/upload/activator/csv/info
+    const year = this.year % 100;
+    return (
+      paddedNumberToString(this.day, 2) +
+      '/' +
+      paddedNumberToString(this.month, 2) +
+      '/' +
+      paddedNumberToString(year, 2)
     );
   }
 }

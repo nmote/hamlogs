@@ -9,6 +9,7 @@ import * as result from '../result';
 
 export interface SimpleTime {
   toString(): string;
+  toSOTAString(): string;
 }
 
 class SimpleTimeImpl {
@@ -28,6 +29,10 @@ class SimpleTimeImpl {
       paddedNumberToString(this.minute, 2) +
       paddedNumberToString(this.second, 2)
     );
+  }
+
+  toSOTAString() {
+    return paddedNumberToString(this.hour, 2) + paddedNumberToString(this.minute, 2);
   }
 }
 
