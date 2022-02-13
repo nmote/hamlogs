@@ -11,12 +11,12 @@ import {parseTime} from './time';
 // TODO use opaque types for date, time, etc.
 
 export type Entry = {|
-  call: string,
-  date: SimpleDate,
-  time: SimpleTime,
-  band: string,
-  mode: string,
-  sigInfo: string | null,
+  +call: string,
+  +date: SimpleDate,
+  +time: SimpleTime,
+  +band: string,
+  +mode: string,
+  +sigInfo: string | null,
 |};
 
 export function date(input: string | null): Result<SimpleDate, string> {
