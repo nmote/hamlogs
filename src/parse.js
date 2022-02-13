@@ -7,7 +7,7 @@ import * as Papa from 'papaparse';
 
 import * as entry from './entry';
 import * as result from './result';
-import {objectValues} from './utils';
+import {objectValues, collateErrors} from './utils';
 
 const canonicalToAlternates = new Map([
   ['date', []],
@@ -100,41 +100,6 @@ function parseRow(order, row): Result<Entry, Array<string>> {
     sigInfo: entry.sigInfo(extractCell(order, row, 'sig_info')),
   };
   return entryResultToEntry(results);
-}
-
-// Mutates the accumulator, aliases the errors
-function addErrors<V, E>(accumulator: Result<V, Array<E>>, errs: Array<E>): Result<V, Array<E>> {
-  if (accumulator.kind === 'ok') {
-    return result.err(errs);
-  } else {
-    accumulator.err.push(...errs);
-    return accumulator;
-  }
-}
-
-// Mutates the accumulator
-function addSuccess<V, E>(accumulator: Result<Array<V>, E>, value: V): Result<Array<V>, E> {
-  if (accumulator.kind === 'ok') {
-    accumulator.value.push(value);
-    return accumulator;
-  } else {
-    return accumulator;
-  }
-}
-
-function collateErrors<V>(
-  resultArray: Array<Result<V, Array<string>>>
-): Result<Array<V>, Array<string>> {
-  let results = result.ok([]);
-  resultArray.forEach((entry, i) => {
-    if (entry.kind === 'ok') {
-      results = addSuccess(results, entry.value);
-    } else {
-      const errs = entry.err.map((err) => `Entry #${i + 1}: ${err}`);
-      results = addErrors(results, errs);
-    }
-  });
-  return results;
 }
 
 export function parse(input: string): Result<Array<Entry>, Array<string>> {
