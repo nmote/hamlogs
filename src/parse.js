@@ -7,7 +7,7 @@ import * as Papa from 'papaparse';
 
 import * as entry from './entry';
 import * as result from './result';
-import {objectValues, collateErrors} from './utils';
+import {objectValues, collateErrors, extractErrors} from './utils';
 
 const canonicalToAlternates = new Map([
   ['date', []],
@@ -58,16 +58,6 @@ function extractCell(order, row, name) {
 
 type EntryResult = $ObjMap<Entry, <T>(T) => Result<T, string>>;
 
-function collectErrors<E>(arr: $ReadOnlyArray<Result<mixed, E>>): Array<E> {
-  const errors = [];
-  for (const x of arr) {
-    if (x.kind === 'err') {
-      errors.push(x.err);
-    }
-  }
-  return errors;
-}
-
 function entryResultToEntry(entry: EntryResult): Result<Entry, Array<string>> {
   if (
     entry.date.kind === 'ok' &&
@@ -86,7 +76,7 @@ function entryResultToEntry(entry: EntryResult): Result<Entry, Array<string>> {
       sigInfo: entry.sigInfo.value,
     });
   } else {
-    return result.err(collectErrors(objectValues<Result<mixed, string>>(entry)));
+    return result.err(extractErrors(objectValues<Result<mixed, string>>(entry)));
   }
 }
 

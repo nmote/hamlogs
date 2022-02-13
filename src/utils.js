@@ -56,3 +56,13 @@ export function collateErrors<V>(
   });
   return results;
 }
+
+export function extractErrors<E>(arr: $ReadOnlyArray<Result<mixed, E>>): Array<E> {
+  const errors = [];
+  for (const x of arr) {
+    if (x.kind === 'err') {
+      errors.push(x.err);
+    }
+  }
+  return errors;
+}
