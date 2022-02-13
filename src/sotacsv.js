@@ -96,7 +96,6 @@ export function toSota(
   );
   return result.bind(sotaEntries, (entries: Array<SOTAEntry>) => {
     const lines = entries.map((entry) => SOTAEntryToCSVLine(stationCallsign, mySummit, entry));
-    // $FlowFixMe add def for unparse
     return result.ok(Papa.unparse(lines) + '\r\n');
   });
 }

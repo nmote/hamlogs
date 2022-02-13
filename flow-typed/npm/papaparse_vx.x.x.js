@@ -68,5 +68,7 @@ declare module 'papaparse' {
 
   declare module.exports: {|
     parse(csvString: string, config?: Config): ParseResults,
+    // TODO add additional input types and unparse config
+    unparse(input: $ReadOnlyArray<$ReadOnlyArray<?string>>): string,
   |};
 }
