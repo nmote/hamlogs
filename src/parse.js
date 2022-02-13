@@ -122,6 +122,21 @@ function addSuccess<V, E>(accumulator: Result<Array<V>, E>, value: V): Result<Ar
   }
 }
 
+function collateErrors<V>(
+  resultArray: Array<Result<V, Array<string>>>
+): Result<Array<V>, Array<string>> {
+  let results = result.ok([]);
+  resultArray.forEach((entry, i) => {
+    if (entry.kind === 'ok') {
+      results = addSuccess(results, entry.value);
+    } else {
+      const errs = entry.err.map((err) => `Entry #${i + 1}: ${err}`);
+      results = addErrors(results, errs);
+    }
+  });
+  return results;
+}
+
 export function parse(input: string): Result<Array<Entry>, Array<string>> {
   const csvResult = Papa.parse(input, {header: false, skipEmptyLines: true});
   if (csvResult.errors.length > 0) {
@@ -135,17 +150,7 @@ export function parse(input: string): Result<Array<Entry>, Array<string>> {
 
   const order = columnOrder(csv.shift());
 
-  let results = result.ok([]);
-  csv.forEach((row, i) => {
-    const entryResult = parseRow(order, row);
-    if (entryResult.kind === 'ok') {
-      results = addSuccess(results, entryResult.value);
-    } else {
-      const errs = entryResult.err.map((err) => `Entry #${i + 1}: ${err}`);
-      results = addErrors(results, errs);
-    }
-  });
-  return results;
+  return collateErrors(csv.map((entry) => parseRow(order, entry)));
 }
 
 export const columnOrder_TEST = columnOrder;
