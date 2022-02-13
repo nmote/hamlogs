@@ -8,27 +8,29 @@ import * as result from '../result';
 import {parseDate} from './date';
 import {parseTime} from './time';
 
+export type {SimpleDate, SimpleTime};
+
 // TODO use opaque types for date, time, etc.
 
 export type Entry = {|
-  +call: string,
-  +date: SimpleDate,
-  +time: SimpleTime,
-  +band: string,
-  +mode: string,
+  +call: string | null,
+  +date: SimpleDate | null,
+  +time: SimpleTime | null,
+  +band: string | null,
+  +mode: string | null,
   +sigInfo: string | null,
 |};
 
-export function date(input: string | null): Result<SimpleDate, string> {
+export function date(input: string | null): Result<SimpleDate | null, string> {
   if (input == null) {
-    return result.err('Date must be provided');
+    return result.ok(null);
   }
   return parseDate(input);
 }
 
-export function time(input: string | null): Result<SimpleTime, string> {
+export function time(input: string | null): Result<SimpleTime | null, string> {
   if (input == null) {
-    return result.err('Time must be provided');
+    return result.ok(null);
   }
   return parseTime(input);
 }
@@ -78,7 +80,10 @@ function normalizeBand(inputParam: string): string {
   return input.toLowerCase();
 }
 
-export function band(bandInput: string | null, freqInput: string | null): Result<string, string> {
+export function band(
+  bandInput: string | null,
+  freqInput: string | null
+): Result<string | null, string> {
   if (bandInput != null) {
     const band = normalizeBand(bandInput);
     if (!hamBands.has(band)) {
@@ -102,7 +107,7 @@ export function band(bandInput: string | null, freqInput: string | null): Result
       return result.ok(matchingBand);
     }
   } else {
-    return result.err('Band or frequency must be included');
+    return result.ok(null);
   }
 }
 
@@ -129,10 +134,10 @@ function normalizeMode(input: string): string {
   return input.toUpperCase();
 }
 
-export function mode(inputParam: string | null): Result<string, string> {
+export function mode(inputParam: string | null): Result<string | null, string> {
   let input = inputParam;
   if (input == null) {
-    return result.err('Mode must be included');
+    return result.ok(null);
   }
   input = normalizeMode(input);
   if (!hamModes.has(input)) {
@@ -146,9 +151,9 @@ function normalizeCall(input: string): string {
   return input.toUpperCase();
 }
 
-export function call(input: string | null): Result<string, string> {
+export function call(input: string | null): Result<string | null, string> {
   if (input == null) {
-    return result.err("The other station's callsign must be provided");
+    return result.ok(null);
   }
   return result.ok(normalizeCall(input));
 }

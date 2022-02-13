@@ -5,7 +5,6 @@ export type {Result};
 
 import {parse} from './parse';
 import {toAdif} from './adif';
-import * as result from './result';
 
 export function CSVToAdif(
   callsign: string,
@@ -17,6 +16,5 @@ export function CSVToAdif(
   if (log.kind === 'err') {
     return log;
   }
-  const adif = toAdif(callsign, park, log.value);
-  return result.ok(adif);
+  return toAdif(callsign, park, log.value);
 }

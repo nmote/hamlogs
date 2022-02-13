@@ -1,4 +1,4 @@
-import {makeLine_TEST as makeLine} from './adif';
+import {makeLine_TEST as makeLine, toAdif} from './adif';
 
 const testLine = {
   call: 'N9EGT',
@@ -14,4 +14,28 @@ const testOutput =
 
 test('An individual ADIF line is valid', () => {
   expect(makeLine('K7NCM', 'K-3213', testLine)).toEqual(testOutput);
+});
+
+test('toAdif runs successfully', () => {
+  expect(toAdif('K7NCM', 'K-4531', [testLine]).kind).toEqual('ok');
+});
+
+test('toAdif checks for the presence of callsign', () => {
+  expect(toAdif('K7NCM', 'K-4531', [{...testLine, call: null}]).kind).toEqual('err');
+});
+
+test('toAdif checks for the presence of date', () => {
+  expect(toAdif('K7NCM', 'K-4531', [{...testLine, date: null}]).kind).toEqual('err');
+});
+
+test('toAdif checks for the presence of time', () => {
+  expect(toAdif('K7NCM', 'K-4531', [{...testLine, time: null}]).kind).toEqual('err');
+});
+
+test('toAdif checks for the presence of band', () => {
+  expect(toAdif('K7NCM', 'K-4531', [{...testLine, band: null}]).kind).toEqual('err');
+});
+
+test('toAdif checks for the presence of mode', () => {
+  expect(toAdif('K7NCM', 'K-4531', [{...testLine, mode: null}]).kind).toEqual('err');
 });
