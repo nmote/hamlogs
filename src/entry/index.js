@@ -19,6 +19,8 @@ export type Entry = {|
   +band: string | null,
   +mode: string | null,
   +sigInfo: string | null,
+  +otherSummit: string | null,
+  +comments: string | null,
 |};
 
 export function date(input: string | null): Result<SimpleDate | null, string> {
@@ -160,5 +162,14 @@ export function call(input: string | null): Result<string | null, string> {
 
 export function sigInfo(input: string | null): Result<string | null, string> {
   // TODO Validate park number for when this is used for POTA
+  return result.ok(input);
+}
+
+export function otherSummit(input: string | null): Result<string | null, string> {
+  // TODO Validate summit identifier
+  return result.ok(input);
+}
+
+export function comments(input: string | null): Result<string | null, string> {
   return result.ok(input);
 }
