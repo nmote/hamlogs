@@ -37,7 +37,7 @@ function makeLine(stationCallSign: string, myPark: string, entry: POTAEntry): st
     makeItem('CALL', entry.call) +
     makeItem('QSO_DATE', entry.date.toString()) +
     makeItem('TIME_ON', entry.time.toString()) +
-    makeItem('BAND', entry.band.toADIFBand().toUpperCase()) +
+    makeItem('BAND', entry.band.toADIFBand()) +
     makeItem('MODE', entry.mode) +
     makeItem('SIG_INFO', entry.sigInfo) +
     '<eor>'

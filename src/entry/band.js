@@ -60,7 +60,7 @@ class BandImpl {
   }
 
   toADIFBand(): string {
-    return this.band;
+    return this.band.toUpperCase();
   }
 }
 

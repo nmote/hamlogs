@@ -17,7 +17,7 @@ test('Times are validated', () => {
 test('Bands are validated and normalized', () => {
   // Mismatch: use the band
   expect(result.bind(entry.band('20m', '7.200'), (x) => result.ok(x.toADIFBand()))).toEqual(
-    result.ok('20m')
+    result.ok('20M')
   );
 
   expect(entry.band(null, null)).toEqual(result.ok(null));

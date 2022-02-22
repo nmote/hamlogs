@@ -55,9 +55,9 @@ function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
 // TODO move this logic into encapsulated band object
 function bandToSOTABand(band: Band): string {
   switch (band.toADIFBand()) {
-    case '40m':
+    case '40M':
       return '7MHz';
-    case '20m':
+    case '20M':
       return '14MHz';
     default:
       // I don't want to plumb a result through this function since it will be
