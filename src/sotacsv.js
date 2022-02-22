@@ -51,22 +51,6 @@ function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
   }
 }
 
-// TODO support all bands
-// TODO move this logic into encapsulated band object
-function bandToSOTABand(band: Band): string {
-  switch (band.toADIFBand()) {
-    case '40M':
-      return '7MHz';
-    case '20M':
-      return '14MHz';
-    default:
-      // I don't want to plumb a result through this function since it will be
-      // encapsulated with a band object soon, and this won't be possible. For
-      // now, the SOTA importer will have to catch this if it happens.
-      return 'UnsupportedBand';
-  }
-}
-
 function SOTAEntryToCSVLine(
   stationCallsign: string,
   mySummit: string,
@@ -78,7 +62,7 @@ function SOTAEntryToCSVLine(
     mySummit,
     entry.date.toSOTAString(),
     entry.time.toSOTAString(),
-    bandToSOTABand(entry.band),
+    entry.band.toSOTABand(),
     entry.mode,
     entry.call,
     entry.otherSummit,

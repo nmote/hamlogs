@@ -5,6 +5,7 @@ import * as result from '../result';
 
 export interface Band {
   toADIFBand(): string;
+  toSOTABand(): string;
 }
 
 class Range {
@@ -61,6 +62,21 @@ class BandImpl {
 
   toADIFBand(): string {
     return this.band.toUpperCase();
+  }
+
+  toSOTABand(): string {
+    // TODO support all bands
+    switch (this.toADIFBand()) {
+      case '40M':
+        return '7MHz';
+      case '20M':
+        return '14MHz';
+      default:
+        // I don't want to plumb a result through this function since it will be
+        // encapsulated with a band object soon, and this won't be possible. For
+        // now, the SOTA importer will have to catch this if it happens.
+        return 'UnsupportedBand';
+    }
   }
 }
 
