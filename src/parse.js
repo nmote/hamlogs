@@ -17,7 +17,7 @@ const canonicalToAlternates = new Map([
   ['call', []],
   ['sig_info', ['other_park']],
   ['other_summit', []],
-  ['comments', []],
+  ['notes', ['comments']],
 ]);
 
 const nameToCanonicalName = new Map();
@@ -69,7 +69,7 @@ function entryResultToEntry(entry: EntryResult): Result<Entry, Array<string>> {
     entry.call.kind === 'ok' &&
     entry.sigInfo.kind === 'ok' &&
     entry.otherSummit.kind === 'ok' &&
-    entry.comments.kind === 'ok'
+    entry.notes.kind === 'ok'
   ) {
     return result.ok({
       date: entry.date.value,
@@ -79,7 +79,7 @@ function entryResultToEntry(entry: EntryResult): Result<Entry, Array<string>> {
       call: entry.call.value,
       sigInfo: entry.sigInfo.value,
       otherSummit: entry.otherSummit.value,
-      comments: entry.comments.value,
+      notes: entry.notes.value,
     });
   } else {
     return result.err(extractErrors(objectValues<Result<mixed, string>>(entry)));
@@ -95,7 +95,7 @@ function parseRow(order, row): Result<Entry, Array<string>> {
     call: entry.call(extractCell(order, row, 'call')),
     sigInfo: entry.sigInfo(extractCell(order, row, 'sig_info')),
     otherSummit: entry.otherSummit(extractCell(order, row, 'other_summit')),
-    comments: entry.comments(extractCell(order, row, 'comments')),
+    notes: entry.notes(extractCell(order, row, 'notes')),
   };
   return entryResultToEntry(results);
 }

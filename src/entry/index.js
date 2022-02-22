@@ -20,7 +20,7 @@ export type Entry = {|
   +mode: string | null,
   +sigInfo: string | null,
   +otherSummit: string | null,
-  +comments: string | null,
+  +notes: string | null,
 |};
 
 export function date(input: string | null): Result<SimpleDate | null, string> {
@@ -170,6 +170,6 @@ export function otherSummit(input: string | null): Result<string | null, string>
   return result.ok(input);
 }
 
-export function comments(input: string | null): Result<string | null, string> {
+export function notes(input: string | null): Result<string | null, string> {
   return result.ok(input);
 }

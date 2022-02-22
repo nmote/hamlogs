@@ -15,7 +15,7 @@ type SOTAEntry = {|
   +band: string,
   +mode: string,
   +otherSummit: string | null,
-  +comments: string | null,
+  +notes: string | null,
 |};
 
 function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
@@ -26,7 +26,7 @@ function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
     band: maybeToResult(entry.band, 'Band or frequency must be included'),
     mode: maybeToResult(entry.mode, 'Mode must be included'),
     otherSummit: result.ok(entry.otherSummit),
-    comments: result.ok(entry.comments),
+    notes: result.ok(entry.notes),
   };
   if (
     sotaResult.call.kind === 'ok' &&
@@ -35,7 +35,7 @@ function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
     sotaResult.band.kind === 'ok' &&
     sotaResult.mode.kind === 'ok' &&
     sotaResult.otherSummit.kind === 'ok' &&
-    sotaResult.comments.kind === 'ok'
+    sotaResult.notes.kind === 'ok'
   ) {
     return result.ok({
       call: sotaResult.call.value,
@@ -44,7 +44,7 @@ function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
       band: sotaResult.band.value,
       mode: sotaResult.mode.value,
       otherSummit: sotaResult.otherSummit.value,
-      comments: sotaResult.comments.value,
+      notes: sotaResult.notes.value,
     });
   } else {
     return result.err(extractErrors(objectValues<Result<mixed, string>>(sotaResult)));
@@ -82,7 +82,7 @@ function SOTAEntryToCSVLine(
     entry.mode,
     entry.call,
     entry.otherSummit,
-    entry.comments,
+    entry.notes,
   ];
 }
 
