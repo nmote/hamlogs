@@ -15,19 +15,11 @@ test('Times are validated', () => {
 });
 
 test('Bands are validated and normalized', () => {
-  expect(entry.band('20m', null)).toEqual(result.ok('20m'));
-  expect(entry.band('20M', null)).toEqual(result.ok('20m'));
-  expect(entry.band('20 M', null)).toEqual(result.ok('20m'));
-  expect(entry.band('20', null)).toEqual(result.ok('20m'));
-
-  expect(entry.band('70 cm', null)).toEqual(result.ok('70cm'));
-
-  expect(entry.band(null, '7.200')).toEqual(result.ok('40m'));
-  expect(entry.band(null, '14.300')).toEqual(result.ok('20m'));
-  expect(entry.band(null, '3.970')).toEqual(result.ok('80m'));
-
   // Mismatch: use the band
-  expect(entry.band('20m', '7.200')).toEqual(result.ok('20m'));
+  expect(result.bind(entry.band('20m', '7.200'), (x) => result.ok(x.toADIFBand()))).toEqual(
+    result.ok('20m')
+  );
+
   expect(entry.band(null, null)).toEqual(result.ok(null));
 
   expect(entry.band('11', null).kind).toEqual('err');

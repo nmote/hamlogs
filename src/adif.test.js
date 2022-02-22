@@ -4,7 +4,7 @@ const testLine = {
   call: 'N9EGT',
   date: '20210215',
   time: '225000',
-  band: '40M',
+  band: {toADIFBand: () => '40M'},
   mode: 'CW',
   sigInfo: '',
 };

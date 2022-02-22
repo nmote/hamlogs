@@ -1,6 +1,6 @@
 // @flow strict
 
-import type {Entry, SimpleDate, SimpleTime} from './entry';
+import type {Entry, SimpleDate, SimpleTime, Band} from './entry';
 import type {Result} from './result';
 
 import * as Papa from 'papaparse';
@@ -12,7 +12,7 @@ type SOTAEntry = {|
   +call: string,
   +date: SimpleDate,
   +time: SimpleTime,
-  +band: string,
+  +band: Band,
   +mode: string,
   +otherSummit: string | null,
   +notes: string | null,
@@ -53,8 +53,8 @@ function entryToSOTAEntry(entry: Entry): Result<SOTAEntry, Array<string>> {
 
 // TODO support all bands
 // TODO move this logic into encapsulated band object
-function bandToSOTABand(band: string): string {
-  switch (band) {
+function bandToSOTABand(band: Band): string {
+  switch (band.toADIFBand()) {
     case '40m':
       return '7MHz';
     case '20m':

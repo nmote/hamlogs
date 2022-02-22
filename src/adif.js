@@ -1,6 +1,6 @@
 // @flow strict
 
-import type {Entry, SimpleDate, SimpleTime} from './entry';
+import type {Entry, SimpleDate, SimpleTime, Band} from './entry';
 import type {Result} from './result';
 
 import {objectValues, maybeToResult, extractErrors, collateErrors} from './utils';
@@ -24,7 +24,7 @@ type POTAEntry = {|
   +call: string,
   +date: SimpleDate,
   +time: SimpleTime,
-  +band: string,
+  +band: Band,
   +mode: string,
   +sigInfo: string | null,
 |};
@@ -37,7 +37,7 @@ function makeLine(stationCallSign: string, myPark: string, entry: POTAEntry): st
     makeItem('CALL', entry.call) +
     makeItem('QSO_DATE', entry.date.toString()) +
     makeItem('TIME_ON', entry.time.toString()) +
-    makeItem('BAND', entry.band.toUpperCase()) +
+    makeItem('BAND', entry.band.toADIFBand().toUpperCase()) +
     makeItem('MODE', entry.mode) +
     makeItem('SIG_INFO', entry.sigInfo) +
     '<eor>'
