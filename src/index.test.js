@@ -12,7 +12,9 @@ const POTAOutPath = __dirname + '/../fixtures/K-4531.adi';
 test('It gives correct ADIF output for a CSV file', () => {
   const CSVText = fs.readFileSync(CSVPath).toString();
   const ADIText = fs.readFileSync(ADIPath).toString();
-  expect(CSVToAdif('K7NCM', 'K-3213', CSVText)).toEqual(result.ok(ADIText));
+  expect(CSVToAdif('K7NCM', 'K-3213', CSVText)).toEqual(
+    result.ok({text: ADIText, earliestEntryDate: '20210215'})
+  );
 });
 
 const malformedCSVPath = __dirname + '/../fixtures/K-3213-malformed.csv';
@@ -33,11 +35,15 @@ test('It gives correct errors for an invalid CSV file', () => {
 test('It gives correct POTA ADIF output for a joint POTA/SOTA CSV file', () => {
   const CSVText = fs.readFileSync(SPOTAInPath).toString();
   const ADIText = fs.readFileSync(POTAOutPath).toString();
-  expect(CSVToAdif('K7NCM', 'K-4531', CSVText)).toEqual(result.ok(ADIText));
+  expect(CSVToAdif('K7NCM', 'K-4531', CSVText)).toEqual(
+    result.ok({text: ADIText, earliestEntryDate: '20211029'})
+  );
 });
 
 test('It gives correct SOTA CSV output for a joint POTA/SOTA CSV file', () => {
   const CSVInText = fs.readFileSync(SPOTAInPath).toString();
   const CSVOutText = fs.readFileSync(SOTAOutPath).toString();
-  expect(CSVToSOTA('K7NCM', 'W7W/CH-227', CSVInText)).toEqual(result.ok(CSVOutText));
+  expect(CSVToSOTA('K7NCM', 'W7W/CH-227', CSVInText)).toEqual(
+    result.ok({text: CSVOutText, earliestEntryDate: '20211029'})
+  );
 });

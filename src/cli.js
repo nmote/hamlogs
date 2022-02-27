@@ -75,7 +75,7 @@ export function main(): void {
   const output = convert(program, callsign, entity, inputText);
 
   if (output.kind === 'ok') {
-    process.stdout.write(output.value);
+    process.stdout.write(output.value.text);
   } else {
     process.stderr.write('Error(s) encountered while converting log:\n');
     for (const err of output.err) {
